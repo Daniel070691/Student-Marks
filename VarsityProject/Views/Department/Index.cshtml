@@ -1,0 +1,42 @@
+﻿@model VarsityProject.ViewModels.DepartmentsViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-12">
+        <h5 class="text-dark font-18 mb-3 mt-3">Departments</h5>
+    </div>
+    <div class="col-lg-12">
+        <div class="card m-b-30">
+
+            <div class="card-header bg-white">
+                <ul class="list-inline mb-0">
+                    <li class="list-inline-item"><a href="\Department\Create\"><i class="mdi mdi-plus-box font-24"></i>Create a New Department</a></li>
+                </ul>
+            </div>
+
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="xp-default-datatable" class="display table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.DepartmentList)
+                            {
+                                <tr>
+                                    <td>@item.Title</td>
+                                </tr>
+                            }
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

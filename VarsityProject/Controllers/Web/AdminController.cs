@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using VarsityProject.ViewModels;
 using VarsityProject.Models;
+using System.Web.Security;
 
 namespace VarsityProject.Controllers
 {
@@ -75,7 +76,7 @@ namespace VarsityProject.Controllers
 
                 return RedirectToAction("Administrator", "Dashboard");
             }
-            return RedirectToAction("Lecturer", "Dashboard");
+            return RedirectToAction("LectureLogin", "Admin");
         }
 
         public ActionResult AdministratorLogin()
@@ -106,6 +107,33 @@ namespace VarsityProject.Controllers
                     return RedirectToAction("Administrator", "Dashboard");
                 }
             return RedirectToAction("AdministratorLogin","Admin");
+        }
+
+        public ActionResult AdministratorSignOut()
+        {
+            FormsAuthentication.SignOut();
+            Session.Remove("names");
+            Session.Remove("role");
+            Session.Remove("TID");
+            return RedirectToAction("AdministratorLogin", "Admin");
+        }
+
+        public ActionResult LectureSignOut()
+        {
+            FormsAuthentication.SignOut();
+            Session.Remove("names");
+            Session.Remove("role");
+            Session.Remove("TID");
+            return RedirectToAction("LectureLogin", "Admin");
+        }
+
+        public ActionResult StudentSignOut()
+        {
+            FormsAuthentication.SignOut();
+            Session.Remove("names");
+            Session.Remove("role");
+            Session.Remove("TID");
+            return RedirectToAction("StudentLogIn", "Admin");
         }
     }
 }

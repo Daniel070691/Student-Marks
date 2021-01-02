@@ -6,87 +6,174 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
 
-    <title>Student Progress keeper</title>
+    <title>Smart App</title>
 
-    <!-- Fevicon -->
     <link rel="shortcut icon" href="~/assets/images/favicon.ico">
-
-    <!-- Start CSS -->
     <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="~/assets/css/icons.css" rel="stylesheet" type="text/css">
     <link href="~/assets/css/style.css" rel="stylesheet" type="text/css">
-    <!-- End CSS -->
+
+    <link href="~/assets/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/assets/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
+    <link href="~/assets/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 
 </head>
 
 <body class="xp-vertical">
 
-    <!-- Start XP Container -->
     <div id="xp-container">
 
-        <!-- Start XP Leftbar -->
         <div class="xp-leftbar">
-
-            <!-- Start XP Sidebar -->
             <div class="xp-sidebar">
-
-                <!-- Start XP Logobar -->
                 <div class="xp-logobar text-center">
                     <a href="/" class="xp-logo"></a>
                 </div>
-                <!-- End XP Logobar -->
-                <!-- Start XP Navigationbar -->
                 <div class="xp-navigationbar">
                     <ul class="xp-vertical-menu">
                         <li class="xp-vertical-header">Navigation</li>
-                        <li>
-                            <a href="\Admin\StudentLogin\">
-                                <i class="ion ion-ios-person"></i><span>Student</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="\Admin\LectureLogin\">
-                                <i class="ion ion-ios-school"></i><span>Lectures</span><i class="mdi mdi-chevron-right pull-right"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="\Admin\AdministratorLogin\">
-                                <i class="mdi mdi-package-variant"></i><span>Administrators</span><i class="mdi mdi-chevron-right pull-right"></i>
-                            </a>
-                        </li>
+                        @if (Session["role"] != null)
+                        {
+                            if ((string)Session["role"] == "Administrator")
+                            {
+                                <li>
+                                    <a href="\Department\index\">
+                                        <i class="typcn typcn-flow-merge"></i><span>Department Administration</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="\Faculty\index\">
+                                        <i class="mdi mdi-city"></i><span>Faculty Administration</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="\Course\index\">
+                                        <i class="mdi mdi-layers"></i><span>Course Administration</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="\Subject\index\">
+                                        <i class="mdi mdi-library"></i><span>Subject Administration</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="\Lecturer\index\">
+                                        <i class="fa fa-graduation-cap"></i><span>Lecture Administration</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="\Student\index\">
+                                        <i class="fa fa-user"></i><span>Student Administration</span>
+                                    </a>
+                                </li>
+                            }
+                            if ((string)Session["roles"] == "Lecturer")
+                            {
+                                <li>
+                                    <a href="\Subject\index\">
+                                        <i class="mdi mdi-library"></i><span>Subject Management</span>
+                                    </a>
+                                </li>
+                            }
+                            if ((string)Session["roles"] == "Student")
+                            {
+                                <li>
+                                    <a href="\Subject\index\">
+                                        <i class="mdi mdi-library"></i><span>My Subjects</span>
+                                    </a>
+                                </li>
+                            }
+                        }
+                        else
+                        {
+                            <li>
+                                <i class="typcn typcn-warning" style="color: red; font-size: 16px"></i><span>Not authorized role</span>
+                            </li>
+
+                            <li>
+                                <a href="\Admin\StudentLogin\">
+                                    <i class="ion ion-ios-person"></i><span>Student</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="\Admin\LectureLogin\">
+                                    <i class="ion ion-ios-school"></i><span>Lecture</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="\Admin\AdministratorLogin\">
+                                    <i class="mdi mdi-package-variant"></i><span>Administrator</span>
+                                </a>
+                            </li>
+                        }
+
                     </ul>
                 </div>
-                <!-- End XP Navigationbar -->
 
             </div>
-            <!-- End XP Sidebar -->
 
         </div>
-        <!-- End XP Leftbar -->
-        <!-- Start XP Rightbar -->
         <div class="xp-rightbar">
-            <!-- Start XP Contentbar -->
+            <div class="xp-topbar">
+                <div class="row">
+
+                    <div class="col-2 col-md-1 col-lg-1 order-2 order-md-1 align-self-center">
+                        <div class="xp-menubar">
+                            <a class="xp-menu-hamburger" href="javascript:void();">
+                                <i class="mdi mdi-sort-variant font-24 text-white"></i>
+                            </a>
+                        </div>
+                    </div>
+                    @if (Session["role"] != null)
+
+                    {
+                        <div class="col-10 col-md-6 col-lg-8 order-1 order-md-3">
+                            <div class="xp-profilebar text-right">
+                                <ul class="list-inline mb-0">
+                                    <li class="list-inline-item mr-0">
+                                        <div class="dropdown xp-userprofile">
+                                            <a class="dropdown-toggle user-profile-img" href="#" role="button" id="xp-userprofile" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@Session["names"]</a>
+
+                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="xp-userprofile">
+                                                <a class="dropdown-item" href="#">Welcome, @Session["names"]</a>
+                                                <a class="dropdown-item" href="#"><i class="mdi mdi-account mr-2"></i> Profile</a>
+                                                @if (Session["role"] == "Administrator")
+                                                {
+                                                    <a class="dropdown-item" href="\Admin\AdministratorSignOut\"><i class="mdi mdi-logout mr-2"></i> Logout</a>
+                                                }
+                                                @if (Session["roles"] == "Lecturer")
+                                                {
+                                                    <a class="dropdown-item" href="\Admin\LectureSignOut\"><i class="mdi mdi-logout mr-2"></i> Logout</a>
+                                                }
+                                                @if (Session["roles"] == "Student")
+                                                {
+                                                    <a class="dropdown-item" href="\Admin\StudentSignOut\"><i class="mdi mdi-logout mr-2"></i> Logout</a>
+                                                }
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+            </div>
             <div class="xp-contentbar">
 
 
                 @RenderBody()
 
             </div>
-            <!-- End XP Contentbar -->
-            <!-- Start XP Footerbar -->
             <div class="xp-footerbar">
                 <footer class="footer">
-                    <p class="mb-0">© @DateTime.Now.Year Student Progress Keeper System.</p>
+                    <p class="mb-0">© @DateTime.Now.Year Smart App.</p>
                 </footer>
             </div>
-            <!-- End XP Footerbar -->
 
         </div>
-        <!-- End XP Rightbar -->
 
     </div>
-    <!-- End XP Container -->
-    <!-- Start JS -->
     <script src="~/assets/js/jquery.min.js"></script>
     <script src="~/assets/js/popper.min.js"></script>
     <script src="~/assets/js/bootstrap.min.js"></script>
@@ -95,16 +182,30 @@
     <script src="~/assets/js/jquery.slimscroll.js"></script>
     <script src="~/assets/js/sidebar-menu.js"></script>
 
-    <!-- Parsley JS -->
     <script src="~/assets/plugins/validatejs/validate.min.js"></script>
 
-    <!-- Validate JS -->
     <script src="~/assets/js/init/validate-init.js"></script>
     <script src="~/assets/js/init/form-validation-init.js"></script>
 
-    <!-- Main JS -->
+    <script src="~/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/assets/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <script src="~/assets/plugins/datatables/dataTables.buttons.min.js"></script>
+    <script src="~/assets/plugins/datatables/buttons.bootstrap4.min.js"></script>
+    <script src="~/assets/plugins/datatables/jszip.min.js"></script>
+    <script src="~/assets/plugins/datatables/pdfmake.min.js"></script>
+    <script src="~/assets/plugins/datatables/vfs_fonts.js"></script>
+    <script src="~/assets/plugins/datatables/buttons.html5.min.js"></script>
+    <script src="~/assets/plugins/datatables/buttons.print.min.js"></script>
+    <script src="~/assets/plugins/datatables/buttons.colVis.min.js"></script>
+
+    <script src="~/assets/plugins/datatables/dataTables.responsive.min.js"></script>
+    <script src="~/assets/plugins/datatables/responsive.bootstrap4.min.js"></script>
+
+    <!-- Datatable init JS -->
+    <script src="~/assets/js/init/table-datatable-init.js"></script>
+
     <script src="~/assets/js/main.js"></script>
-    <!-- End JS -->
 
 </body>
 </html>
