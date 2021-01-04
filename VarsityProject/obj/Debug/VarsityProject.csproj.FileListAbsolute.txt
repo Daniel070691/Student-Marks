@@ -55,3 +55,9 @@ c:\users\mokole\documents\visual studio 2015\Projects\VarsityProject\VarsityProj
 c:\users\mokole\documents\visual studio 2015\Projects\VarsityProject\VarsityProject\bin\EntityFramework.SqlServer.dll
 c:\users\mokole\documents\visual studio 2015\Projects\VarsityProject\VarsityProject\bin\EntityFramework.xml
 c:\users\mokole\documents\visual studio 2015\Projects\VarsityProject\VarsityProject\bin\EntityFramework.SqlServer.xml
+C:\Users\Mokole\documents\visual studio 2015\Projects\varsityProject\VarsityProject\bin\System.Net.Http.Formatting.dll
+C:\Users\Mokole\documents\visual studio 2015\Projects\varsityProject\VarsityProject\bin\System.Web.Http.dll
+C:\Users\Mokole\documents\visual studio 2015\Projects\varsityProject\VarsityProject\bin\System.Web.Http.WebHost.dll
+C:\Users\Mokole\documents\visual studio 2015\Projects\varsityProject\VarsityProject\bin\System.Net.Http.Formatting.xml
+C:\Users\Mokole\documents\visual studio 2015\Projects\varsityProject\VarsityProject\bin\System.Web.Http.xml
+C:\Users\Mokole\documents\visual studio 2015\Projects\varsityProject\VarsityProject\bin\System.Web.Http.WebHost.xml

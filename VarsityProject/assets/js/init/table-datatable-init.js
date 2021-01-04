@@ -5,7 +5,7 @@ $(document).ready(function(){
     $('#datatable').DataTable();
 
     $('#xp-default-datatable').DataTable( {
-        "order": [[ 3, "desc" ]]
+        "order": [[ 0, "desc" ]]
     } );
     
     var table = $('#datatable-buttons').DataTable({

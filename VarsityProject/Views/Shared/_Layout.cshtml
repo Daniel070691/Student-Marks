@@ -137,15 +137,15 @@
                                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="xp-userprofile">
                                                 <a class="dropdown-item" href="#">Welcome, @Session["names"]</a>
                                                 <a class="dropdown-item" href="#"><i class="mdi mdi-account mr-2"></i> Profile</a>
-                                                @if (Session["role"] == "Administrator")
+                                                @if ((string)Session["role"] == "Administrator")
                                                 {
                                                     <a class="dropdown-item" href="\Admin\AdministratorSignOut\"><i class="mdi mdi-logout mr-2"></i> Logout</a>
                                                 }
-                                                @if (Session["roles"] == "Lecturer")
+                                                @if ((string)Session["roles"] == "Lecturer")
                                                 {
                                                     <a class="dropdown-item" href="\Admin\LectureSignOut\"><i class="mdi mdi-logout mr-2"></i> Logout</a>
                                                 }
-                                                @if (Session["roles"] == "Student")
+                                                @if ((string)Session["roles"] == "Student")
                                                 {
                                                     <a class="dropdown-item" href="\Admin\StudentSignOut\"><i class="mdi mdi-logout mr-2"></i> Logout</a>
                                                 }

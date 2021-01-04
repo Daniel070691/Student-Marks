@@ -1,4 +1,4 @@
-﻿@model VarsityProject.ViewModels.DepartmentsViewModel
+﻿@model VarsityProject.ViewModels.FacultyViewModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -13,7 +13,7 @@
 
             <div class="card-header bg-white">
                 <ul class="list-inline mb-0">
-                    <li class="list-inline-item"><a href="\Department\Create\"><i class="mdi mdi-plus-box font-24"></i>Create a New Department</a></li>
+                    <li class="list-inline-item"><a href="\Faculty\Create\"><i class="mdi mdi-plus-box font-24"></i>Create a New Faculty</a></li>
                 </ul>
             </div>
 
@@ -23,13 +23,15 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
+                                <th>Department</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model.DepartmentList)
+                            @foreach (var item in Model.FacultyList)
                             {
                                 <tr>
-                                    <td>@Html.ActionLink(item.Title, "Edit", new { id = item.tid })</td>
+                                    <td>@Html.ActionLink(item.title, "Edit", new { id = item.tid })</td>
+                                    <td>@item.tblDepartment.Title</td>
                                 </tr>
                             }
 
@@ -40,3 +42,5 @@
     </div>
 
 </div>
+
+

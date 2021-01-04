@@ -9,6 +9,10 @@ namespace VarsityProject.ViewModels
 {
     public class DepartmentsViewModel
     {
+        public DepartmentsViewModel()
+        {
+            this.Department = new tblDepartment();
+        }
         public tblDepartment Department { get; set; }
         public List<tblDepartment> DepartmentList { get; set; }
         public IEnumerable<SelectListItem> StatusFilters { get; set; }
