@@ -9,6 +9,7 @@
     <title>Smart App</title>
 
     <link rel="shortcut icon" href="~/assets/images/favicon.ico">
+    @RenderSection("styles", required: false)
     <link href="~/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <link href="~/assets/css/icons.css" rel="stylesheet" type="text/css">
     <link href="~/assets/css/style.css" rel="stylesheet" type="text/css">
@@ -47,38 +48,38 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="\Course\index\">
+                                    <a href="\Courses\index\">
                                         <i class="mdi mdi-layers"></i><span>Course Administration</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="\Subject\index\">
+                                    <a href="\Subjects\index\">
                                         <i class="mdi mdi-library"></i><span>Subject Administration</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="\Lecturer\index\">
+                                    <a href="\Lectures\index\">
                                         <i class="fa fa-graduation-cap"></i><span>Lecture Administration</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="\Student\index\">
+                                    <a href="\Students\index\">
                                         <i class="fa fa-user"></i><span>Student Administration</span>
                                     </a>
                                 </li>
                             }
-                            if ((string)Session["roles"] == "Lecturer")
+                            if ((string)Session["role"] == "Lecture")
                             {
                                 <li>
-                                    <a href="\Subject\index\">
+                                    <a href="\Lectures\LectureSubjectIndex\">
                                         <i class="mdi mdi-library"></i><span>Subject Management</span>
                                     </a>
                                 </li>
                             }
-                            if ((string)Session["roles"] == "Student")
+                            if ((string)Session["role"] == "Student")
                             {
                                 <li>
-                                    <a href="\Subject\index\">
+                                    <a href="\Subjects\index\">
                                         <i class="mdi mdi-library"></i><span>My Subjects</span>
                                     </a>
                                 </li>
@@ -141,11 +142,11 @@
                                                 {
                                                     <a class="dropdown-item" href="\Admin\AdministratorSignOut\"><i class="mdi mdi-logout mr-2"></i> Logout</a>
                                                 }
-                                                @if ((string)Session["roles"] == "Lecturer")
+                                                @if ((string)Session["role"] == "Lecture")
                                                 {
                                                     <a class="dropdown-item" href="\Admin\LectureSignOut\"><i class="mdi mdi-logout mr-2"></i> Logout</a>
                                                 }
-                                                @if ((string)Session["roles"] == "Student")
+                                                @if ((string)Session["role"] == "Student")
                                                 {
                                                     <a class="dropdown-item" href="\Admin\StudentSignOut\"><i class="mdi mdi-logout mr-2"></i> Logout</a>
                                                 }
@@ -158,6 +159,7 @@
                     }
                 </div>
 
+                @RenderSection("breadcrumb", required: false);
             </div>
             <div class="xp-contentbar">
 
@@ -206,6 +208,6 @@
     <script src="~/assets/js/init/table-datatable-init.js"></script>
 
     <script src="~/assets/js/main.js"></script>
-
+    @RenderSection("scripts", required: false)
 </body>
 </html>

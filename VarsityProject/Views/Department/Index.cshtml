@@ -3,7 +3,15 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@section breadcrumb{
+    <div class="xp - breadcrumbbar text - center">
+        <h4 class="page-title">Departments</h4>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="\Dashboard\Administrator\">Dashboard</a></li>
+            <li class="breadcrumb-item">Departments</li>
+            <li class="breadcrumb-item active" aria-current="page">Index</li>
+        </ol>
+    </div>}
 <div class="row">
     <div class="col-lg-12">
         <h5 class="text-dark font-18 mb-3 mt-3">Departments</h5>

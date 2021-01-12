@@ -116,14 +116,15 @@ namespace VarsityProject.Controllers
             try
             {
                 viewModel.Faculty.title = tblFaculty.title;
-                var tblDepart = (from a in db.tblDepartments
-                                  where a.stateid == 1
-                                  orderby a.tid descending
-                                  select new { a.tid, a.Title }).ToList().Distinct().Select(g => new SelectListItem
-                                  {
-                                      Value = g.tid.ToString(),
-                                      Text = g.Title
-                                  });
+                var tblDepart = db.tblDepartments
+                    .Where(s => s.stateid == 1)
+                    .OrderByDescending(s => s.tid)
+                    .Select(s => new { s.tid, s.Title }).ToList().Distinct()
+                    .Select(g => new SelectListItem
+                    {
+                        Value = g.tid.ToString(),
+                        Text = g.Title
+                    });
 
 
                 ViewBag.departments = new SelectList(tblDepart.Distinct(), "Value", "Text", tblFaculty.departmentID);

@@ -60,28 +60,6 @@ namespace VarsityProject.Controllers
             return View(viewModel);
         }
 
-        public JsonResult FilterFaculty(string departmentID)
-        {
-            if (Session["names"] == null && (string)Session["role"] != "Administrator")
-                return Json(JsonRequestBehavior.AllowGet);
-
-           var id = departmentID;
-            long TID;
-            bool res = long.TryParse(id, out TID);
-            var Faculties = db.tblFaculties.Where(x => x.departmentID == TID).ToList();
-
-            if(Faculties != null)
-            {
-                var results = new List<selectListItem>(); ;
-                foreach (var item in Faculties)
-                {
-                    results.Add(new selectListItem { Value = item.tid, Text = item.title});
-                }
-                return Json(results, JsonRequestBehavior.AllowGet);
-            }
-
-            return Json(new { empty = "No Data Found under this department"});
-        }
 
         [HttpPost, ValidateInput(false)]
         public async Task<ActionResult> Create(FacultyViewModel viewModel, FormCollection form)
@@ -93,28 +71,39 @@ namespace VarsityProject.Controllers
             string sAlert = "";
             int intState = 1;
             string sName = Convert.ToString(form["val-title"]).Trim();
+            string sCourseCode = Convert.ToString(form["val-course-code"]).Trim();
+            int sFacultyID = Convert.ToInt32(form["facultyDropdown"]);
+            int sDuration = Convert.ToInt32(form["val-duration"]);
 
             var departId = form["departments"];
             //int iPageID = Convert.ToInt32(form["pagecat"]);
 
-            var newFaculty = new tblFaculty();
-            newFaculty.title = sName;
-            newFaculty.departmentID = Convert.ToInt32(departId);
-            newFaculty.insertdate = DateTime.Now;
-            newFaculty.lastupdate = DateTime.Now;
-            newFaculty.createdby = Convert.ToInt32(Session["TID"]);
-            newFaculty.updatedby = Convert.ToInt32(Session["TID"]);
-
+            var newCourse = new tblCourse();
+            newCourse.title = sName;
+            newCourse.courseCode = sCourseCode;
+            newCourse.facultyID = sFacultyID;
+            newCourse.insertdate = DateTime.Now;
+            newCourse.lastupdate = DateTime.Now;
+            newCourse.createdby = Convert.ToInt32(Session["TID"]);
+            newCourse.updatedby = Convert.ToInt32(Session["TID"]);
+            newCourse.duration = sDuration;
 
 
             intState = 1;
             sAlert = "You have successfully published " + sName;
-            newFaculty.stateid = intState;
+            newCourse.stateid = intState;
 
-            db.tblFaculties.Add(newFaculty);
+            db.tblCourses.Add(newCourse);
 
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
 
-            await db.SaveChangesAsync();
+                throw;
+            }
 
 
             return RedirectToAction("/Index/");
@@ -133,12 +122,12 @@ namespace VarsityProject.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var viewModel = new FacultyViewModel();
-            var tblFaculty = await db.tblFaculties.FindAsync(id);
+            var viewModel = new CoursesViewModel();
+            var tblCourse = await db.tblCourses.FindAsync(id);
 
             try
             {
-                viewModel.Faculty.title = tblFaculty.title;
+                viewModel.Course = tblCourse;
                 var tblDepart = (from a in db.tblDepartments
                                  where a.stateid == 1
                                  orderby a.tid descending
@@ -149,8 +138,8 @@ namespace VarsityProject.Controllers
                                  });
 
 
-                ViewBag.departments = new SelectList(tblDepart.Distinct(), "Value", "Text", tblFaculty.departmentID);
-                viewModel.Faculty.tid = tblFaculty.tid;
+                ViewBag.departments = new SelectList(tblDepart.Distinct(), "Value", "Text", tblCourse.tblFaculty.departmentID);
+                ViewBag.departmentsId = tblCourse.tblFaculty.departmentID;
             }
             catch (Exception ex)
             {
@@ -163,7 +152,7 @@ namespace VarsityProject.Controllers
 
 
         [HttpPost, ValidateInput(false)]
-        public async Task<ActionResult> Edit(FacultyViewModel viewModel, FormCollection form)
+        public async Task<ActionResult> Edit(CoursesViewModel viewModel, FormCollection form)
         {
             if (Session["names"] == null && (string)Session["role"] != "Administrator")
                 return RedirectToAction("AdministratorLogin", "Admin");
@@ -178,19 +167,23 @@ namespace VarsityProject.Controllers
 
 
 
-                var mID = viewModel.Faculty.tid.ToString();
+                var mID = viewModel.Course.tid.ToString();
                 long marID;
                 bool res2 = long.TryParse(mID, out marID);
 
-                var myFaculty = db.tblFaculties.FirstOrDefault(x => x.tid == marID);
+                var myCourse = db.tblCourses.FirstOrDefault(x => x.tid == marID);
 
-                if (myFaculty != null)
+                if (myCourse != null)
                 {
-                    myFaculty.title = Convert.ToString(form["val-title"]);
-                    myFaculty.departmentID = Convert.ToInt32(form["departments"]);
-                    myFaculty.lastupdate = DateTime.Now;
-                    myFaculty.updatedby = Convert.ToInt32(Session["TID"]);
-                    myFaculty.stateid = intState;
+                    myCourse.title = Convert.ToString(form["val-title"]);
+                    myCourse.courseCode = Convert.ToString(form["val-course-code"]);
+                    myCourse.facultyID = Convert.ToInt32(form["facultyDropdown"]);
+                    myCourse.lastupdate = DateTime.Now;
+                    myCourse.updatedby = Convert.ToInt32(Session["TID"]);
+                    myCourse.stateid = intState;
+
+                    var valuee = Convert.ToInt32(form["val-duration"]);
+                    myCourse.duration = valuee;
                     try
                     {
 
@@ -220,7 +213,7 @@ namespace VarsityProject.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var unitOfWorkPost = db.tblFaculties.Find(id);
+            var unitOfWorkPost = db.tblCourses.Find(id);
 
             if (unitOfWorkPost == null)
                 return new HttpStatusCodeResult(HttpStatusCode.NotFound);
@@ -237,13 +230,30 @@ namespace VarsityProject.Controllers
 
         }
 
+        public JsonResult FilterFaculty(string departmentID)
+        {
+            if (Session["names"] == null && (string)Session["role"] != "Administrator")
+                return Json(JsonRequestBehavior.AllowGet);
+
+           var id = departmentID;
+            long TID;
+            bool res = long.TryParse(id, out TID);
+            var Faculties = db.tblFaculties.Where(x => x.departmentID == TID).ToList();
+
+            if(Faculties != null)
+            {
+                var results = new List<selectListItem>(); 
+                foreach (var item in Faculties)
+                {
+                    results.Add(new selectListItem { Value = item.tid, Text = item.title});
+                }
+                return Json(results, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new { empty = "No Data Found under this department"});
+        }
+
     }
 
 
-    public class selectListItem
-    {
-        public int Value { get; set; }
-        public string Text { get; set; }
-
-    }
 }

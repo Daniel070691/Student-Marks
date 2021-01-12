@@ -1,0 +1,136 @@
+﻿@model VarsityProject.ViewModels.LectureViewModel
+@using Newtonsoft.Json;
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section styles {
+    <link href="~/assets/plugins/select2/select2.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Tagsinput CSS -->
+    <link href="~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.css" rel="stylesheet" type="text/css">
+
+}
+
+@section breadcrumb{
+    <div class="xp - breadcrumbbar text - center">
+        <h4 class="page-title">Lectures</h4>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="\Dashboard\Administrator\">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="\Lectures\Index\">Lectures</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Edit</li>
+        </ol>
+    </div>}
+<div class="col-lg-12">
+    <div class="card m-b-30">
+
+        <div class="card-header bg-white">
+            <h5 class="card-title text-black">Edit Lecture</h5>
+        </div>
+
+        <div class="card-body">
+            @using (Html.BeginForm("Edit", "Lectures", FormMethod.Post, new { @id = "CreateForm", enctype = "multipart/form-data", @class = "xp-form-validate" }))
+            {
+
+                @Html.HiddenFor(model => model.Lecture.TID)
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="val-Name">Name <span class="text-danger">*</span></label>
+                    <div class="col-lg-6">
+                        @Html.TextBoxFor(model => model.Lecture.Name, new { @class = "form-control ", @id = "val-Name", Name = "val-Name", @placeholder = "Please provide name..." })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="val-Surname">Surname <span class="text-danger">*</span></label>
+                    <div class="col-lg-6">
+                        @Html.TextBoxFor(model => model.Lecture.Surname, new { @class = "form-control ", @id = "val-Surname", Name = "val-Surname", @placeholder = "Please provide surname..." })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="val-email">Email <span class="text-danger">*</span></label>
+                    <div class="col-lg-6">
+                        @Html.TextBoxFor(model => model.Lecture.Email, new { @class = "form-control ", @id = "val-email", Name = "val-email", @placeholder = "Enter email..." })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="val-employee-number">Employee number <span class="text-danger">*</span></label>
+                    <div class="col-lg-6">
+                        @Html.TextBoxFor(model => model.Lecture.EmployeeNumber, new { @class = "form-control ", @id = "val-employee-number", Name = "val-employee-number", @placeholder = "Please provide employee number" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="val-subjects">Subject(s)<span class="text-danger">*</span></label>
+                    <div class="col-lg-6">
+                        @Html.DropDownListFor(x => x.subjectid, Model.SubjectList, "Select Subject(s)", new { @class = "xp-select2-multi-select form-control col-lg-12", Name = "val-subject[]", @multiple = "multiple" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="val-gender">Gender <span class="text-danger">*</span></label>
+                    <div class="col-lg-6">
+                        <div class="form-group">
+                            <select class="xp-select2-multi-select form-control col-lg-12" name="val-gender" id="val-gender">
+                                <option>Choose gender</option>
+                                <option value="1" @(Model.Lecture.Gender == 1 ? "selected='selected'": "")>Male</option>
+                                <option value="2" @(Model.Lecture.Gender == 2 ? "selected='selected'" : "")>Female</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="val-password">Edit Password <span class="text-danger">*</span></label>
+                    <div class="col-lg-6">
+                        <input type="password" class="form-control" id="val-password" name="val-password" value="@Model.Lecture.Password" placeholder="edit password...">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="val-confirm-password">Confirm Password <span class="text-danger">*</span></label>
+                    <div class="col-lg-6">
+                        <input type="password" class="form-control" id="val-confirm-password" name="val-confirm-password" value="@Model.Lecture.Password" placeholder="Confirm edited password...">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-8">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <a href="\Lectures\Delete\@Model.Lecture.TID" style="float: right" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+@section scripts{
+
+    <script src="~/assets/plugins/select2/select2.min.js"></script>
+    <script src="~/assets/js/init/form-select-init.js"></script>
+    <script>
+        $(document).ready(function () {
+            var selectedValues = new Array();
+            var currnt_subject_list= @Html.Raw(JsonConvert.SerializeObject(Model.subjectids));
+
+            var i;
+            for (i = 0; i < currnt_subject_list.length; ++i) {
+                selectedValues[i] = currnt_subject_list[i];
+            }
+            $("#subjectid").val(selectedValues);
+
+
+        });
+
+    </script>
+    <!-- Tagsinput JS -->
+    <script src="~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
+    <script src="~/assets/plugins/bootstrap-tagsinput/typeahead.bundle.js"></script>
+    <script src="~/assets/js/init/form-select-init.js"></script>
+    <!-- Touchspin JS -->
+    <!--<script src="~/assets/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>
+    <script src="~/assets/js/init/form-touchspin-init.js"></script> -->
+
+}
+
+

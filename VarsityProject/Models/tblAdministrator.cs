@@ -29,6 +29,8 @@ namespace VarsityProject.Models
             tblLecturers1 = new HashSet<tblLecturer>();
             tblLectureSubjects = new HashSet<tblLectureSubject>();
             tblLectureSubjects1 = new HashSet<tblLectureSubject>();
+            tblStudents = new HashSet<tblStudent>();
+            tblStudents1 = new HashSet<tblStudent>();
         }
 
         [Key]
@@ -107,5 +109,11 @@ namespace VarsityProject.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tblLectureSubject> tblLectureSubjects1 { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblStudent> tblStudents { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblStudent> tblStudents1 { get; set; }
     }
 }

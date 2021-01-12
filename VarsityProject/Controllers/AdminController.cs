@@ -69,12 +69,12 @@ namespace VarsityProject.Controllers
                 if (!string.IsNullOrEmpty(sUserName))
                 {
                     Session["names"] = user.Name + " " + user.Surname;
-                    Session["role"] = "Lecturer";
+                    Session["role"] = "Lecture";
                     var name = Session["imageName"];
                     Session["TID"] = user.TID;
                 }
 
-                return RedirectToAction("Administrator", "Dashboard");
+                return RedirectToAction("Lecture", "Dashboard");
             }
             return RedirectToAction("LectureLogin", "Admin");
         }

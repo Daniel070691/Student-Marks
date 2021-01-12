@@ -25,8 +25,8 @@ namespace VarsityProject.Models
         public string title { get; set; }
 
         [Required]
-        [MaxLength(50)]
-        public byte[] subjectCode { get; set; }
+        [StringLength(50)]
+        public string subjectCode { get; set; }
 
         public int stateid { get; set; }
 
@@ -38,7 +38,7 @@ namespace VarsityProject.Models
 
         public int updatedby { get; set; }
 
-        public long courseid { get; set; }
+        public long? courseid { get; set; }
 
         public virtual tblCourse tblCourse { get; set; }
 

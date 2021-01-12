@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 /*
 1. Variables
 2. General
@@ -4327,9 +4327,9 @@ label {
   vertical-align: bottom;
 }
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
-  background-color: #4c7cf3;
+  background-color: #3019ec;
+    border: 1px solid #3019ec;
   color: #ffffff;
-  border: none;
   border-radius: 50px;
   cursor: default;
   float: left;

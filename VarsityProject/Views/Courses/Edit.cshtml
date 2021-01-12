@@ -1,0 +1,129 @@
+﻿@model VarsityProject.ViewModels.CoursesViewModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/assets/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.min.css" rel="stylesheet" type="text/css">
+@section breadcrumb{
+    <div class="xp - breadcrumbbar text - center">
+        <h4 class="page-title">Courses</h4>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="\Dashboard\Administrator\">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="\Courses\Index\">Courses</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Edit</li>
+        </ol>
+    </div>}
+<div class="col-lg-12">
+    <div class="card m-b-30">
+
+        <div class="card-header bg-white">
+            <h5 class="card-title text-black">Create New Course</h5>
+        </div>
+        @{
+            var departmentID2 = ViewBag.departmentsId;
+            var FacultyID2 = Model.Course.facultyID;
+            var text = "lpla";
+        }
+        <div class="card-body">
+            @using (Html.BeginForm("Edit", "Courses", FormMethod.Post, new { @id = "CreateForm", enctype = "multipart/form-data", @class = "xp-form-validate" }))
+            {
+                @Html.HiddenFor(model => model.Course.tid)
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="val-title">Title <span class="text-danger">*</span></label>
+                    <div class="col-lg-6">
+                        @Html.TextBoxFor(model => model.Course.title, new { @class = "form-control ", @id = "val-title", Name = "val-title", @placeholder = "Enter a title..." })
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="val-course-code">Course code <span class="text-danger">*</span></label>
+                    <div class="col-lg-6">
+                        @Html.TextBoxFor(model => model.Course.courseCode, new { @class = "form-control ", @id = "val-course-code", Name = "val-course-code", @placeholder = "Enter a course code..." })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="val-departments">Department<span class="text-danger">*</span></label>
+                    <div class="col-lg-6">
+                        @Html.DropDownList("departments", null, "Select a department", new { @class = "form-control col-lg-12", @id = "departments", Name = "val-departments" })
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="facultyDropdown">Faculty<span class="text-danger">*</span></label>
+                    <div class="col-lg-6">
+                        <select class="xp-select2-single form-control col-lg-12" name="facultyDropdown" id="facultyDropdown">
+                            <option value="">Please select a faculty</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label" for="val-duration">Duration (years)<span class="text-danger">*</span></label>
+                    <div class="col-lg-6">
+                        <input type="text" class="form-control" id="xp-touchspin-value-attribute" name="val-duration" value="@Model.Course.duration">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-lg-3 col-form-label"></label>
+                    <div class="col-lg-8">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <a href="\Courses\Delete\@Model.Course.tid" style="float: right" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <!-- Touchspin JS -->
+    <script src="~/assets/plugins/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js"></script>
+    <script src="~/assets/js/init/form-touchspin-init.js"></script>
+    <script>
+        $(document).ready(function () {
+            var selectedFaculty = @Model.Course.facultyID;
+            var departmentId = '@departmentID2';
+            var dataRow = {
+                'departmentId': departmentId
+            }
+            $.ajax({
+                type: "GET",
+                url: "/Courses/FilterFaculty",
+                data: dataRow,
+                success: function (data) {
+                    var s = '<option value="">Please select a faculty</option>';
+
+                    for (var i = 0; i < data.length; i++) {
+
+                        if (selectedFaculty == data[i].Value) {
+                            s += '<option value="' + data[i].Value + '" selected="selected">' + data[i].Text + '</option>';
+                        } else {
+                            s += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                        }
+                    }
+                    $("#facultyDropdown").html(s);
+                }
+            });
+        });
+
+        $('#departments').change(function () {
+
+            var departmentId = $(this).val();
+            var dataRow = {
+                'departmentId': departmentId
+            }
+            $.ajax({
+                type: "GET",
+                url: "/Courses/FilterFaculty",
+                data: dataRow,
+                success: function (data) {
+                    var s = '<option value="">Please select a faculty</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        s += '<option value="' + data[i].Value + '">' + data[i].Text + '</option>';
+                    }
+                    $("#facultyDropdown").html(s);
+                }
+            });
+        })
+    </script>
+}

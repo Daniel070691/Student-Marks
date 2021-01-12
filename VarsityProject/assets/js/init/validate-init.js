@@ -15,13 +15,33 @@ $(document).ready(function() {
             jQuery(e).closest(".form-group").removeClass("is-invalid"), jQuery(e).remove()
         },
         rules: {
+            "val-Name": {
+                required: !0,
+                minlength: 3
+            },
+            "val-Surname": {
+                required: !0,
+                minlength: 3
+            },
             "val-username": {
+                required: !0,
+                minlength: 3
+            },
+            "val-title": {
                 required: !0,
                 minlength: 3
             },
             "val-email": {
                 required: !0,
                 email: !0
+            },
+            "val-employee-number": {
+                required: !0,
+                minlength: 5
+            },
+            "val-student-number": {
+                required: !0,
+                minlength: 5
             },
             "val-password": {
                 required: !0,
@@ -38,64 +58,91 @@ $(document).ready(function() {
                 required: !0,
                 minlength: 2
             },
-            "val-suggestions": {
-                required: !0,
-                minlength: 5
-            },
-            "val-skill": {
+            "val-course-code": {
                 required: !0
             },
-            "val-currency": {
+            "facultyDropdown": {
                 required: !0
             },
-            "val-website": {
-                required: !0,
-                url: !0
-            },
-            "val-phoneus": {
+            "val-departments": {
                 required: !0
             },
             "val-digits": {
                 required: !0,
                 digits: !0
             },
-            "val-number": {
+            "val-duration": {
+                required: !0,
+                digits: !0,                
+                range: [1,4]
+            },
+            "val-cellphone": {
                 required: !0
             },
             "val-range": {
                 required: !0,
                 range: [1, 5]
             },
-            "val-terms": {
+            "val-courses[]": {
+                required: !0
+            },
+            "val-subject[]": {
+                required: !0
+            },
+            "val-gender": {
+                required: !0
+            },
+            "val-subject-code": {
                 required: !0
             }
         },
         messages: {
+            "val-subject-code": {
+                required: "Please enter the code of the subject"
+            },
+            "val-Name": {
+                required: "Please enter name",
+                minlength: "Your name must consist of at least 3 characters"
+            },
+            "val-Surname": {
+                required: "Please enter surname",
+                minlength: "Surname must consist of at least 3 characters"
+            },
             "val-username": {
                 required: "Please enter a username",
-                minlength: "Your username must consist of at least 3 characters"
+                minlength: "Username must consist of at least 3 characters"
+            },
+            "val-title": {
+                required: "Please enter a title",
+                minlength: "Title must consist of at least 3 characters"
             },
             "val-email": "Please enter a valid email address",
+            "val-employee-number": {
+                required: "Please provide an employee number",
+                minlength: "Employee must be at least 5 characters long"
+            },
             "val-password": {
                 required: "Please provide a password",
-                minlength: "Your password must be at least 5 characters long"
+                minlength: "Password must be at least 5 characters long"
             },
             "val-confirm-password": {
                 required: "Please provide a password",
-                minlength: "Your password must be at least 5 characters long",
+                minlength: "Password must be at least 5 characters long",
                 equalTo: "Please enter the same password as above"
             },
             "val-select2": "Please select a value!",
             "val-select2-multiple": "Please select at least 2 values!",
-            "val-suggestions": "What can we do to become better?",
-            "val-skill": "Please select a skill!",
-            "val-currency": "Please enter a price!",
-            "val-website": "Please enter your website!",
-            "val-phoneus": "Please enter a US phone!",
+            "facultyDropdown": "Please select a faculty!",
+            "val-course-code": "Please enter the course code!",
+            "val-departments": "Please select a department!",
+            "val-subject[]": "Please select subject(s)!",
+            "val-courses[]": "Please select course(s)!",
             "val-digits": "Please enter only digits!",
-            "val-number": "Please enter a number!",
+            "val-duration": "Please enter a valid course duration!",
+            "val-cellphone": "Please enter a cellphone!",
             "val-range": "Please enter a number between 1 and 5!",
-            "val-terms": "You must agree to the service terms!"
+            "student-number": "Please provide a student number!",
+            "val-gender": "Please choose a gender type"
         }
     })
    
