@@ -12,6 +12,7 @@ namespace VarsityProject.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tblSubject()
         {
+            StudentSubjects = new HashSet<StudentSubject>();
             tblCourseSubjects = new HashSet<tblCourseSubject>();
             tblLectureSubjects = new HashSet<tblLectureSubject>();
             tblSubjectTests = new HashSet<tblSubjectTest>();
@@ -39,6 +40,9 @@ namespace VarsityProject.Models
         public int updatedby { get; set; }
 
         public long? courseid { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<StudentSubject> StudentSubjects { get; set; }
 
         public virtual tblCourse tblCourse { get; set; }
 

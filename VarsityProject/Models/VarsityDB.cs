@@ -12,6 +12,7 @@ namespace VarsityProject.Models
         {
         }
 
+        public virtual DbSet<StudentSubject> StudentSubjects { get; set; }
         public virtual DbSet<tblAdministrator> tblAdministrators { get; set; }
         public virtual DbSet<tblCourse> tblCourses { get; set; }
         public virtual DbSet<tblCourseLecturer> tblCourseLecturers { get; set; }
@@ -191,11 +192,6 @@ namespace VarsityProject.Models
                 .WithRequired(e => e.tblCourse)
                 .HasForeignKey(e => e.CourseID)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<tblCourse>()
-                .HasMany(e => e.tblStudents)
-                .WithOptional(e => e.tblCourse)
-                .HasForeignKey(e => e.courseid);
 
             modelBuilder.Entity<tblCourse>()
                 .HasMany(e => e.tblStudentCourses)
@@ -407,6 +403,12 @@ namespace VarsityProject.Models
                 .IsUnicode(false);
 
             modelBuilder.Entity<tblStudent>()
+                .HasMany(e => e.StudentSubjects)
+                .WithRequired(e => e.tblStudent)
+                .HasForeignKey(e => e.StudentID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<tblStudent>()
                 .HasMany(e => e.tblStudentCourses)
                 .WithRequired(e => e.tblStudent)
                 .HasForeignKey(e => e.studentID)
@@ -425,6 +427,12 @@ namespace VarsityProject.Models
             modelBuilder.Entity<tblSubject>()
                 .Property(e => e.subjectCode)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<tblSubject>()
+                .HasMany(e => e.StudentSubjects)
+                .WithRequired(e => e.tblSubject)
+                .HasForeignKey(e => e.SubjectID)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<tblSubject>()
                 .HasMany(e => e.tblCourseSubjects)

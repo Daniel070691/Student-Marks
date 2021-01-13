@@ -1,17 +1,17 @@
 "use strict";
-$(document).ready(function() {   
+$(document).ready(function () {
 
     jQuery(".xp-form-validate").validate({
         ignore: [],
         errorClass: "invalid-feedback animated fadeInDown",
         errorElement: "div",
-        errorPlacement: function(e, a) {
+        errorPlacement: function (e, a) {
             jQuery(a).parents(".form-group > div").append(e)
         },
-        highlight: function(e) {
+        highlight: function (e) {
             jQuery(e).closest(".form-group").removeClass("is-invalid").addClass("is-invalid")
         },
-        success: function(e) {
+        success: function (e) {
             jQuery(e).closest(".form-group").removeClass("is-invalid"), jQuery(e).remove()
         },
         rules: {
@@ -26,6 +26,11 @@ $(document).ready(function() {
             "val-username": {
                 required: !0,
                 minlength: 3
+            },
+            "val-default-date":
+            {
+                date: true,
+                required: !0
             },
             "val-title": {
                 required: !0,
@@ -73,8 +78,8 @@ $(document).ready(function() {
             },
             "val-duration": {
                 required: !0,
-                digits: !0,                
-                range: [1,4]
+                digits: !0,
+                range: [1, 4]
             },
             "val-cellphone": {
                 required: !0
@@ -112,6 +117,11 @@ $(document).ready(function() {
                 required: "Please enter a username",
                 minlength: "Username must consist of at least 3 characters"
             },
+            "val-default-date":
+            {
+                date: "valid date required",
+                required: "Please select date"
+            },
             "val-title": {
                 required: "Please enter a title",
                 minlength: "Title must consist of at least 3 characters"
@@ -145,5 +155,5 @@ $(document).ready(function() {
             "val-gender": "Please choose a gender type"
         }
     })
-   
+
 });

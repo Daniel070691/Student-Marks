@@ -16,7 +16,7 @@
         <h4 class="page-title">Students</h4>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="\Dashboard\Lecture\">Dashboard</a></li>
-            <li class="breadcrumb-item">My Subjects</li>
+            <li class="breadcrumb-item"><a href="\Lectures\LectureSubjectIndex\@Model.Lecture.TID">Subjects</a></li>
             <li class="breadcrumb-item active" aria-current="page">Index</li>
         </ol>
     </div>}
@@ -28,8 +28,8 @@
     <div class="col-md-12 col-lg-12 col-xl-12">
         <div class="card m-b-30">
             <div class="card-header bg-white">
-                <h5 class="card-title text-black">Default Tabs - Justified</h5>
-                <h6 class="card-subtitle">For equal-width elements, use <code class="highlighter-rouge">.nav-justified</code>. All horizontal space will be occupied by nav links, but unlike the <code class="highlighter-rouge">.nav-fill</code> above, every nav item will be the same width.</h6>
+                <h5 class="card-title text-black">@Model.SubjectSelected.title</h5>
+                <h6 class="card-subtitle">Management section for the @Model.SubjectSelected.title subject</h6>
             </div>
             <div class="card-body">
                 <ul class="nav nav-tabs nav-justified mb-3" id="defaultTabJustified" role="tablist">
@@ -39,37 +39,81 @@
                     <li class="nav-item">
                         <a class="nav-link" id="students-tab-justified" data-toggle="tab" href="#students-justified" role="tab" aria-controls="profile" aria-selected="false">Students</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="contact-tab-justified" data-toggle="tab" href="#contact-justified" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
-                    </li>
                 </ul>
                 <div class="tab-content" id="defaultTabJustifiedContent">
-                    <div class="tab-pane fade show active" id="test-justified" role="tabpanel" aria-labelledby="test-tab-justified">
-                        <div class="table-responsive">
-                            <table id="xp-default-datatable" class="display table table-striped table-bordered">
-                                <thead>
-                                    <tr>
-                                        @*<th style="display: none;">states</th>*@
-                                        <th>Test Name</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var item in Model.LectureTestList)
-                                    {
-                                        <tr>
-                                            @*<td style="display: none;">@item</td>*@
-                                            <td>@Html.ActionLink(item.title, "TestDetails", new { id = item.TID })</td>
-                                        </tr>
-                                    }
+                    <div style="" class="tab-pane fade show active" id="test-justified" role="tabpanel" aria-labelledby="test-tab-justified">
 
-                            </table>
-                        </div>
+
+                        @if (Model.LectureTestList != null)
+                        {
+                            if (Model.LectureTestList.Count < 4)
+                            {
+                                <div class="card-header bg-white">
+                                    <ul class="list-inline mb-0">
+                                        <li class="list-inline-item"><a href="\Lectures\createTest\@Model.SubjectSelected.tid"><i class="mdi mdi-plus-box font-24"></i>Add a new test</a></li>
+                                    </ul>
+                                </div>
+                            }
+                            <div class="table-responsive">
+                                <table id="xp-default-datatable" class="display table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Test Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.LectureTestList)
+                                        {
+                                            <tr>
+                                                <td> @Html.ActionLink(item.title, "TestDetails", new { id = item.TID }) </td>
+                                            </tr>
+                                        }
+
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="card-header bg-white">
+                                <ul class="list-inline mb-0">
+                                    <li class="list-inline-item"><a href="\Lectures\createTest\@Model.SubjectSelected.tid"><i class="mdi mdi-plus-box font-24"></i>Add a new test</a></li>
+                                </ul>
+                            </div>
+                            <h6 style="color: red">No Test under this subject yet</h6>
+                        }
+
                     </div>
                     <div class="tab-pane fade" id="students-justified" role="tabpanel" aria-labelledby="students-tab-justified">
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
-                    </div>
-                    <div class="tab-pane fade" id="contact-justified" role="tabpanel" aria-labelledby="contact-tab-justified">
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+
+                        @if (Model.SubjectStudentList != null)
+                        {
+                            <div class="table-responsive">
+                                <table id="xp-student-datatable" class="display table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Surname</th>
+                                            <th>Student No</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.SubjectStudentList)
+                                        {
+                                            <tr>
+                                                <td> @item.Name</td>
+                                                <td> @item.Surname </td>
+                                                <td> @item.StudentNo </td>
+                                            </tr>
+                                        }
+
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <h6 style="color: red">No Test under this subject yet</h6>
+                        }
+
                     </div>
                 </div>
             </div>
@@ -78,5 +122,3 @@
     <!-- End XP Col -->
 
 </div>
- 
-

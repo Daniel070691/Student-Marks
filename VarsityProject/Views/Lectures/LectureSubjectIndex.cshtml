@@ -28,19 +28,11 @@
     </div>
     <div class="col-lg-12">
         <div class="card m-b-30">
-
-            @*<div class="card-header bg-white">
-                <ul class="list-inline mb-0">
-                    <li class="list-inline-item"><a href="\Students\Create\"><i class="mdi mdi-plus-box font-24"></i>Add new student</a></li>
-                </ul>
-            </div>*@
-
             <div class="card-body">
                 <div class="table-responsive">
                     <table id="xp-default-datatable" class="display table table-striped table-bordered">
                         <thead>
                             <tr>
-                                @*<th style="display: none;">states</th>*@
                                 <th>Subject Name</th>
                             </tr>
                         </thead>
@@ -48,11 +40,9 @@
                             @foreach (var item in Model.LectureSubjectList)
                             {
                                 <tr>
-                                    @*<td style="display: none;">@item</td>*@
                                     <td>@Html.ActionLink(item.Title, "SubjectManagement", new { id = item.TID })</td>                                    
                                 </tr>
                             }
-
                     </table>
                 </div>
             </div>

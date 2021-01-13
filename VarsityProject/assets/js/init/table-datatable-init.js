@@ -7,7 +7,10 @@ $(document).ready(function(){
     $('#xp-default-datatable').DataTable( {
         "order": [[ 0, "desc" ]]
     } );
-    
+
+    $('#xp-student-datatable').DataTable({
+        "order": [[0, "desc"]]
+    });
     var table = $('#datatable-buttons').DataTable({
         lengthChange: false,
         buttons: ['copy', 'csv', 'excel', 'pdf', 'print']

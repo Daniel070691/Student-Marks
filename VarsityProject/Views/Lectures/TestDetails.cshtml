@@ -1,0 +1,151 @@
+﻿@model VarsityProject.ViewModels.LectureViewModel
+@{
+    ViewBag.Title = "TestDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles {
+    <link href="~/assets/plugins/select2/select2.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Tagsinput CSS -->
+    <link href="~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" rel="stylesheet" type="text/css">
+    <link href="~/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput-typeahead.css" rel="stylesheet" type="text/css">
+
+}
+@section breadcrumb{
+    <div class="xp - breadcrumbbar text - center">
+        <h4 class="page-title">Students</h4>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="\Dashboard\Lecture\">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="\Lectures\SubjectManagement\@Model.SubjectSelected.tid">Subjects</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Index</li>
+        </ol>
+    </div>}
+<div class="row">
+    <div class="col-lg-12">
+        <h5 class="text-dark font-18 mb-3 mt-3">@Model.SubjectSelected.title</h5>
+    </div>
+    <!-- Start XP Col -->
+    <div class="col-md-12 col-lg-12 col-xl-12">
+        <div class="card m-b-30">
+            <div class="card-header bg-white">
+                <h5 class="card-title text-black">@Model.testDetail.Test.title</h5>
+                <h6 class="card-subtitle">Management section for the @Model.SubjectSelected.title @Model.testDetail.Test.title subject</h6>
+            </div>
+            <div class="card-body">
+                <ul class="nav nav-tabs nav-justified mb-3" id="defaultTabJustified" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="test-tab-justified" data-toggle="tab" href="#test-justified" role="tab" aria-controls="home" aria-selected="true">Test Details</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="students-tab-justified" data-toggle="tab" href="#students-justified" role="tab" aria-controls="profile" aria-selected="false">Students Test Marks</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="defaultTabJustifiedContent">
+                    <div style="" class="tab-pane fade show active" id="test-justified" role="tabpanel" aria-labelledby="test-tab-justified">
+                        <div class="card m-b-30">
+                            <div class="card-header bg-white">
+                               <h4>Update Test Information</h4>
+                            </div>
+                            <div class="card-body">
+                                @if (Model.testDetail.Test != null)
+                                {
+                                    using (Html.BeginForm("TestDetails", "Lectures", FormMethod.Post, new { @id = "CreateForm", enctype = "multipart/form-data", @class = "xp-form-validate" }))
+                                    {
+                                        @Html.HiddenFor(x => x.SubjectSelected.tid)
+                                        @Html.HiddenFor(x => x.testDetail.Test.TID)
+                                        <div class="form-group row">
+                                            <label class="col-lg-3 col-form-label" for="val-title">Title <span class="text-danger">*</span></label>
+                                            <div class="col-lg-6">
+                                                <input type="text" class="form-control" id="val-title" name="val-title" value="@Model.testDetail.Test.title" placeholder="Enter a title...">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-3 col-form-label" for="xp-default-date">Schedule date <span class="text-danger">*</span></label>
+                                            <div class="col-lg-6">
+                                                <div class="input-group">
+                                                    <input type="text" id="xp-default-date" name="val-default-date" class="datepicker-here form-control" value="@Model.testDetail.Test.scheduleDate" placeholder="dd/mm/yyyy" aria-describedby="basic-addon2" />
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text" id="basic-addon2"><i class="mdi mdi-calendar"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label class="col-lg-3 col-form-label"></label>
+                                            <div class="col-lg-8">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                                <a href="\Lectures\DeleteTest\@Model.testDetail.Test.TID" style="float: right" class="btn btn-danger">Delete</a>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="card-header bg-white">
+                                        <ul class="list-inline mb-0">
+                                            <li class="list-inline-item"><a href="\Lectures\createTest\@Model.SubjectSelected.tid"><i class="mdi mdi-plus-box font-24"></i>Add a new test</a></li>
+                                        </ul>
+                                    </div>
+                                    <h6 style="color: red">No data under this Test yet</h6>
+                                }
+                            </div>
+                        </div>
+
+                       
+
+                    </div>
+                    <div class="tab-pane fade" id="students-justified" role="tabpanel" aria-labelledby="students-tab-justified">
+                        <div class="card m-b-30">
+                            <div class="card-header bg-white">
+                                <h4>Capture student Marks</h4>
+                            </div>
+                            <div class="card-body"> 
+                            @if (Model.SubjectStudentList != null)
+                            {
+                                <div class="table-responsive">
+                                    <table id="xp-student-datatable" class="display table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Student No</th>
+                                                <th>Name</th>
+                                                <th>Surname</th>
+                                                <th>Student Marks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.SubjectStudentList)
+                                            {
+                                                <tr>
+                                                    <td> @item.StudentNo </td>
+                                                    <td> @item.Name</td>
+                                                    <td> @item.Surname </td>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <input type="number" class="form-control" style="background-color: #fff;border: 1px solid !important;font-size: 14px; color: #000000; width: 70px !important;" name="inputNumber" id="inputNumber">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                    </table>
+                                </div>
+                            }
+                            else
+                            {
+                                <h6 style="color: red">No Test under this subject yet</h6>
+                            } </div>
+                        </div>
+                        
+
+                    </div>
+
+                        </div>
+                    </div>
+        </div>
+    </div>
+    <!-- End XP Col -->
+
+</div>
+
+

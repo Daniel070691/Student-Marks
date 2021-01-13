@@ -183,6 +183,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\StudentSubject.cs" />
     <Compile Include="Models\tblAdministrator.cs" />
     <Compile Include="Models\tblCourse.cs" />
     <Compile Include="Models\tblCourseLecturer.cs" />
@@ -544,6 +545,8 @@
     <Content Include="Views\Dashboard\Student.cshtml" />
     <Content Include="Views\Lectures\LectureSubjectIndex.cshtml" />
     <Content Include="Views\Lectures\SubjectManagement.cshtml" />
+    <Content Include="Views\Lectures\createTest.cshtml" />
+    <Content Include="Views\Lectures\TestDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

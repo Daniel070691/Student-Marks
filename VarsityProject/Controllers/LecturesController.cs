@@ -31,8 +31,8 @@ namespace VarsityProject.Controllers
             //};
 
             var lecturers = from s in db.tblLecturers
-                           where s.stateid == 1
-                           select s;
+                            where s.stateid == 1
+                            select s;
 
             viewModel.LecturerList = new List<Lecturer>();
             foreach (var item in lecturers)
@@ -46,7 +46,7 @@ namespace VarsityProject.Controllers
                     SubjectsLinked.Add(new LectureSubject { TID = Convert.ToInt32(subject.tid), Title = subject.title });
                 }
 
-                viewModel.LecturerList.Add(new Lecturer { TID = Convert.ToInt32(item.TID), Name = item.Name, Surname = item.Surname, Email = item.Email, EmployeeNumber = item.EmployeeNumber,  LectureSubjectList = SubjectsLinked });
+                viewModel.LecturerList.Add(new Lecturer { TID = Convert.ToInt32(item.TID), Name = item.Name, Surname = item.Surname, Email = item.Email, EmployeeNumber = item.EmployeeNumber, LectureSubjectList = SubjectsLinked });
             }
 
             return View(viewModel);
@@ -68,7 +68,6 @@ namespace VarsityProject.Controllers
 
             return View(viewModel);
         }
-
 
         [HttpPost, ValidateInput(false)]
         public async Task<ActionResult> Create(LectureViewModel viewModel, FormCollection form)
@@ -195,7 +194,6 @@ namespace VarsityProject.Controllers
             return View(viewModel);
         }
 
-
         [HttpPost]
         public async Task<ActionResult> Edit(LectureViewModel viewModel, FormCollection form)
         {
@@ -316,7 +314,7 @@ namespace VarsityProject.Controllers
             return RedirectToAction("/Index/");
 
         }
-        
+
         public JsonResult LecturerSubjectList(string lecturerID)
         {
             if (Session["names"] == null && (string)Session["role"] != "Administrator")
@@ -369,8 +367,8 @@ namespace VarsityProject.Controllers
         public ActionResult SubjectManagement(int? id)
         {
 
-            if (Session["names"] == null && (string)Session["role"] != "Administrator")
-                return RedirectToAction("AdministratorLogin", "Admin");
+            if (Session["names"] == null && (string)Session["role"] != "Lecture")
+                return RedirectToAction("LectureLogin", "Admin");
 
 
             if (id == null)
@@ -379,18 +377,162 @@ namespace VarsityProject.Controllers
             var mID = Session["TID"].ToString();
             long marID;
             bool res2 = long.TryParse(mID, out marID);
-
             var viewModel = new LectureViewModel();
+            viewModel.Lecture.TID = Convert.ToInt32(marID);
+
+            viewModel.SubjectSelected = db.tblSubjects.FirstOrDefault(x => x.tid == id);
+            if (Session["subjectID"] != null)
+            {
+                Session.Remove("subjectID");
+                Session["subjectID"] = Convert.ToString(id);
+            }
+            else
+            {
+                Session["subjectID"] = Convert.ToString(id);
+            }
+
+
             var Bridge = db.tblLectureSubjects.FirstOrDefault(x => x.LectureID == marID && x.SubjectID == id && x.stateid == 1);
-            if(Bridge != null)
+            if (Bridge != null)
             {
                 var subjectTestBridge = db.tblSubjectTests.Where(x => x.subjectid == Bridge.SubjectID).ToList();
+                var testList = new List<tblTest>();
                 foreach (var item in subjectTestBridge)
                 {
                     var test = db.tblTests.FirstOrDefault(x => x.TID == item.testid && x.stateid == 1);
-                    viewModel.LectureTestList.Add(test);
+                    testList.Add(test);
                 }
+                viewModel.LectureTestList = testList;
+                var studentsList = db.tblSubjects.Where(x => x.stateid == 1).ToList();
+                var subjectCoursesList = db.tblCourseSubjects.Where(x => x.SubjectID == id).ToList();
+                var studentList = new List<SubjectStudent>();
+                foreach (var item in subjectCoursesList)
+                {
+                    var studentCoursesList = db.tblStudentCourses.Where(x => x.courseID == item.CourseID).ToList();
+                    foreach (var student in studentCoursesList)
+                    {
+                        var subjectStudent = db.tblStudents.FirstOrDefault(x => x.TID == student.studentID);
+
+                        studentList.Add(new SubjectStudent { TID = Convert.ToInt32(subjectStudent.TID), Name = subjectStudent.Name, Surname = subjectStudent.Surname, StudentNo = subjectStudent.studentNo });
+                    }
+
+                }
+
+
+                viewModel.SubjectStudentList = studentList.GroupBy(x => x.TID).Select(grp => grp.First()).ToList();
+
             }
+            return View(viewModel);
+        }
+
+        public ActionResult createTest(int? id)
+        {
+
+            if (Session["names"] == null && (string)Session["role"] != "Lecture")
+                return RedirectToAction("LectureLogin", "Admin");
+
+
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            var viewModel = new LectureViewModel();
+            viewModel.SubjectSelected = db.tblSubjects.FirstOrDefault(x => x.tid == id);
+            return View(viewModel);
+        }
+        [HttpPost]
+        public ActionResult createTest(LectureViewModel model, FormCollection form, int? id)
+        {
+            if (Session["names"] == null && (string)Session["role"] != "Lecture")
+                return RedirectToAction("LectureLogin", "Admin");
+
+
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var mID = model.SubjectSelected.tid.ToString();
+            long marID;
+            bool res2 = long.TryParse(mID, out marID);
+
+            var sTitle = Convert.ToString(form["val-title"]);
+            var sDate = Convert.ToDateTime(form["val-default-date"]);
+
+            var newTest = new tblTest();
+            newTest.title = sTitle;
+            newTest.scheduleDate = sDate;
+            newTest.insertdate = DateTime.Now;
+            newTest.lastupdate = DateTime.Now;
+            newTest.createdby = Convert.ToInt32(Session["TID"]);
+            newTest.stateid = 1;
+
+            db.tblTests.Add(newTest);
+            db.SaveChanges();
+
+            var newSubjectTestBridge = new tblSubjectTest();
+
+            newSubjectTestBridge.testid = newTest.TID;
+            newSubjectTestBridge.subjectid = marID;
+            newSubjectTestBridge.insertdate = DateTime.Now;
+            newSubjectTestBridge.lastupdate = DateTime.Now;
+            newSubjectTestBridge.stateid = 1;
+
+            db.tblSubjectTests.Add(newSubjectTestBridge);
+            db.SaveChanges();
+
+            return RedirectToAction("SubjectManagement", "Lectures", new { id = model.SubjectSelected.tid });
+        }
+
+        public ActionResult TestDetails(int? id)
+        {
+            if (Session["names"] == null && (string)Session["role"] != "Lecture")
+                return RedirectToAction("LectureLogin", "Admin");
+
+
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            if (Session["subjectID"] == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+
+            var tID = id.ToString();
+            long testID;
+            bool res = long.TryParse(tID, out testID);
+
+            var sID = Session["subjectID"].ToString();
+            long subID;
+            bool res2 = long.TryParse(tID, out subID);
+
+            var viewModel = new LectureViewModel();
+            var Bridge = db.tblLectureSubjects.FirstOrDefault(x => x.SubjectID == subID && x.stateid == 1);
+            if (Bridge != null)
+            {
+                var subjectTestBridge = db.tblSubjectTests.Where(x => x.subjectid == Bridge.SubjectID).ToList();
+                var testList = new List<tblTest>();
+
+                var test = db.tblTests.FirstOrDefault(x => x.TID == testID);
+
+                viewModel.testDetail.Test = test;
+                var studentsList = db.tblSubjects.Where(x => x.stateid == 1).ToList();
+                var subjectCoursesList = db.tblCourseSubjects.Where(x => x.SubjectID == id).ToList();
+                var studentList = new List<SubjectStudent>();
+                foreach (var item in subjectCoursesList)
+                {
+                    var studentCoursesList = db.tblStudentCourses.Where(x => x.courseID == item.CourseID).ToList();
+                    foreach (var student in studentCoursesList)
+                    {
+                        var subjectStudent = db.tblStudents.FirstOrDefault(x => x.TID == student.studentID);
+
+                        studentList.Add(new SubjectStudent { TID = Convert.ToInt32(subjectStudent.TID), Name = subjectStudent.Name, Surname = subjectStudent.Surname, StudentNo = subjectStudent.studentNo });
+                    }
+
+                }
+
+
+                viewModel.SubjectStudentList = studentList.GroupBy(x => x.TID).Select(grp => grp.First()).ToList();
+            }
+            var subjectSelected = db.tblSubjects.FirstOrDefault(x => x.tid == subID);
+            viewModel.SubjectSelected = subjectSelected;
+
+            string[,] array = new string[,](); 
+
             return View(viewModel);
         }
     }
