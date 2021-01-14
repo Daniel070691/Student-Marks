@@ -51,6 +51,7 @@ namespace VarsityProject.ViewModels
         public string Name { get; set; }
         public string Surname { get; set; }
         public string StudentNo { get; set; }
+        public string testMark { get; set; }
     }
 
     public class TestDetails

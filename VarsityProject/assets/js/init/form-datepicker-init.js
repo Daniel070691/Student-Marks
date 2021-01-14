@@ -4,6 +4,7 @@ $(document).ready(function() {
     /* -----  Form - Datepicker ----- */
 
     $('#xp-default-date').datepicker({
+        value: date,
 	    language: 'en',
 	    dateFormat: 'dd/mm/yyyy',
 	})

@@ -392,6 +392,9 @@ namespace VarsityProject.Controllers
             }
 
 
+            var sID = Session["subjectID"].ToString();
+            long subID;
+            bool res = long.TryParse(sID, out subID);
             var Bridge = db.tblLectureSubjects.FirstOrDefault(x => x.LectureID == marID && x.SubjectID == id && x.stateid == 1);
             if (Bridge != null)
             {
@@ -418,7 +421,7 @@ namespace VarsityProject.Controllers
 
                 }
 
-
+                viewModel.SubjectSelected = db.tblSubjects.FirstOrDefault(x => x.tid == subID);
                 viewModel.SubjectStudentList = studentList.GroupBy(x => x.TID).Select(grp => grp.First()).ToList();
 
             }
@@ -498,7 +501,7 @@ namespace VarsityProject.Controllers
 
             var sID = Session["subjectID"].ToString();
             long subID;
-            bool res2 = long.TryParse(tID, out subID);
+            bool res2 = long.TryParse(sID, out subID);
 
             var viewModel = new LectureViewModel();
             var Bridge = db.tblLectureSubjects.FirstOrDefault(x => x.SubjectID == subID && x.stateid == 1);
@@ -510,7 +513,6 @@ namespace VarsityProject.Controllers
                 var test = db.tblTests.FirstOrDefault(x => x.TID == testID);
 
                 viewModel.testDetail.Test = test;
-                var studentsList = db.tblSubjects.Where(x => x.stateid == 1).ToList();
                 var subjectCoursesList = db.tblCourseSubjects.Where(x => x.SubjectID == id).ToList();
                 var studentList = new List<SubjectStudent>();
                 foreach (var item in subjectCoursesList)
@@ -519,8 +521,9 @@ namespace VarsityProject.Controllers
                     foreach (var student in studentCoursesList)
                     {
                         var subjectStudent = db.tblStudents.FirstOrDefault(x => x.TID == student.studentID);
-
-                        studentList.Add(new SubjectStudent { TID = Convert.ToInt32(subjectStudent.TID), Name = subjectStudent.Name, Surname = subjectStudent.Surname, StudentNo = subjectStudent.studentNo });
+                        var testMarkBridge = db.tblStudentMarks.FirstOrDefault(x => x.StudentID == subjectStudent.TID && x.subjectTestID == test.TID);
+                        
+                        studentList.Add(new SubjectStudent { TID = Convert.ToInt32(subjectStudent.TID), Name = subjectStudent.Name, Surname = subjectStudent.Surname, StudentNo = subjectStudent.studentNo, testMark = testMarkBridge != null ? Convert.ToString(testMarkBridge.Mark) : ""  });
                     }
 
                 }
@@ -531,9 +534,81 @@ namespace VarsityProject.Controllers
             var subjectSelected = db.tblSubjects.FirstOrDefault(x => x.tid == subID);
             viewModel.SubjectSelected = subjectSelected;
 
-            string[,] array = new string[,](); 
+            //string[,] array = new string[,](); 
 
             return View(viewModel);
+        }
+        [HttpPost]
+        public async Task<ActionResult> testDetails(FormCollection form, int? id)
+        {
+            if (Session["names"] == null && (string)Session["role"] != "Lecture")
+                return RedirectToAction("LectureLogin", "Admin");
+
+
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var mID = id.ToString();
+            long marID;
+            bool res2 = long.TryParse(mID, out marID);
+
+            var sTitle = Convert.ToString(form["val-title"]);
+            var sDate = Convert.ToDateTime(form["xp-default-date"]);
+
+            var Test = db.tblTests.FirstOrDefault(x => x.TID == marID);
+
+            if (Test == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            Test.title = sTitle;
+            Test.scheduleDate = sDate;
+            Test.lastupdate = DateTime.Now;
+            Test.createdby = Convert.ToInt32(Session["TID"]);
+            Test.stateid = 1;
+            await db.SaveChangesAsync();
+
+            return RedirectToAction("TestDetails", "Lectures", new { id = Test.TID });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveStudentMark(string studentID, string testID, string testMark)
+        {
+
+            var sID = studentID;
+            long stuID;
+            bool res = long.TryParse(sID, out stuID);
+
+
+            var tID = testID;
+            long tesID;
+            bool res2 = long.TryParse(tID, out tesID);
+
+
+            var mID = testMark;
+            int mark;
+            bool res3 = int.TryParse(mID, out mark);
+
+            var MarkBridgeExist = db.tblStudentMarks.FirstOrDefault(x => x.StudentID == stuID && x.subjectTestID == tesID);
+            if(MarkBridgeExist == null)
+            { 
+            var studentTestMark = new tblStudentMark();
+
+            studentTestMark.subjectTestID = tesID;
+            studentTestMark.StudentID = stuID;
+            studentTestMark.Mark = mark;
+
+            db.tblStudentMarks.Add(studentTestMark);
+            }
+            else
+            {
+                MarkBridgeExist.Mark = mark;
+            }
+
+            await db.SaveChangesAsync();
+
+            var result = "saved";
+
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
     }
 }

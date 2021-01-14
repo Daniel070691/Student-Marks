@@ -1,6 +1,29 @@
 "use strict";
 $(document).ready(function () {
-
+    jQuery.validator.addMethod(
+    "dateFormat",
+    function(value, element) {
+        var check = false;
+        var re = /^\d{1,2}\-\d{1,2}\-\d{4}$/;
+        if( re.test(value)){
+            var adata = value.split('-');
+            var dd = parseInt(adata[0],10);
+            var mm = parseInt(adata[1],10);
+            var yyyy = parseInt(adata[2],10);
+            var xdata = new Date(yyyy,mm-1,dd);
+            if ( ( xdata.getFullYear() === yyyy ) && ( xdata.getMonth () === mm - 1 ) && ( xdata.getDate() === dd ) ) {
+                check = true;
+            }
+            else {
+                check = false;
+            }
+        } else {
+            check = false;
+        }
+        return this.optional(element) || check;
+    },
+    "Wrong date format"
+);
     jQuery(".xp-form-validate").validate({
         ignore: [],
         errorClass: "invalid-feedback animated fadeInDown",
@@ -29,8 +52,7 @@ $(document).ready(function () {
             },
             "val-default-date":
             {
-                date: true,
-                required: !0
+                required: true
             },
             "val-title": {
                 required: !0,
@@ -119,7 +141,6 @@ $(document).ready(function () {
             },
             "val-default-date":
             {
-                date: "valid date required",
                 required: "Please select date"
             },
             "val-title": {
