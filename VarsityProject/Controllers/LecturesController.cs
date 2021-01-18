@@ -29,10 +29,8 @@ namespace VarsityProject.Controllers
             //{
             //    Courses = new SelectList(courses, "tid", "title", "tblFaculty.title", null, null)
             //};
-
-            var lecturers = from s in db.tblLecturers
-                            where s.stateid == 1
-                            select s;
+            
+            var lecturers = db.tblLecturers.Where(x => x.stateid == 1).ToList();
 
             viewModel.LecturerList = new List<Lecturer>();
             foreach (var item in lecturers)

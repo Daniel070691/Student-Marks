@@ -16,7 +16,7 @@ namespace VarsityProject.Controllers
 
         VarsityDB db = new VarsityDB();
         // GET: Department
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
             if (Session["names"] == null && (string)Session["role"] != "Administrator")
                 return RedirectToAction("AdministratorLogin", "Admin");
@@ -31,10 +31,10 @@ namespace VarsityProject.Controllers
                                      Text = s.Title
                                  })
             };
-            var faculties = from s in db.tblFaculties
-                              where s.stateid == 1
-                              select s;
-            viewModel.FacultyList = await faculties.ToListAsync();
+
+            var faculties = db.tblFaculties.Where(x => x.stateid == 1).ToList();
+
+            viewModel.FacultyList = faculties;
 
             return View(viewModel);
         }

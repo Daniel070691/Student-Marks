@@ -172,6 +172,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Api\LoginController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\Api\StudentsApiController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
@@ -228,6 +229,7 @@
     <Content Include="assets\images\email\email-user.jpg" />
     <Content Include="assets\images\favicon.ico" />
     <Content Include="assets\images\logo.svg" />
+    <Content Include="assets\images\spongebod.jpg" />
     <Content Include="assets\images\topbar\user-message-1.jpg" />
     <Content Include="assets\images\topbar\user-message-2.jpg" />
     <Content Include="assets\images\topbar\user-message-3.jpg" />
@@ -547,6 +549,9 @@
     <Content Include="Views\Lectures\SubjectManagement.cshtml" />
     <Content Include="Views\Lectures\createTest.cshtml" />
     <Content Include="Views\Lectures\TestDetails.cshtml" />
+    <Content Include="Views\Students\MyCourses.cshtml" />
+    <Content Include="Views\Students\CourseDetails.cshtml" />
+    <Content Include="Views\Students\SubjectTest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

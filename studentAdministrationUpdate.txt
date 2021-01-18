@@ -1,0 +1,876 @@
+USE [VarsityDB]
+GO
+/****** Object:  Table [dbo].[StudentSubject]    Script Date: 1/14/2021 6:34:32 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[StudentSubject](
+	[StudentSubjectID] [int] IDENTITY(1,1) NOT NULL,
+	[StudentID] [bigint] NOT NULL,
+	[SubjectID] [bigint] NOT NULL,
+ CONSTRAINT [PK_StudentSubject] PRIMARY KEY CLUSTERED 
+(
+	[StudentSubjectID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[tblAdministrators]    Script Date: 1/14/2021 6:34:33 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[tblAdministrators](
+	[TID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](50) NOT NULL,
+	[Surname] [varchar](50) NOT NULL,
+	[Username] [varchar](50) NOT NULL,
+	[Email] [varchar](50) NOT NULL,
+	[Password] [varchar](50) NOT NULL,
+ CONSTRAINT [PK_tblAdministrators] PRIMARY KEY CLUSTERED 
+(
+	[TID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[tblCourse]    Script Date: 1/14/2021 6:34:33 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[tblCourse](
+	[tid] [bigint] IDENTITY(1,1) NOT NULL,
+	[title] [varchar](50) NOT NULL,
+	[courseCode] [varchar](50) NOT NULL,
+	[insertdate] [datetime] NOT NULL,
+	[lastupdate] [datetime] NOT NULL,
+	[createdby] [int] NOT NULL,
+	[updatedby] [int] NOT NULL,
+	[stateid] [int] NOT NULL,
+	[facultyID] [int] NOT NULL,
+	[duration] [int] NOT NULL,
+ CONSTRAINT [PK_tblCourse] PRIMARY KEY CLUSTERED 
+(
+	[tid] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[tblCourseLecturers]    Script Date: 1/14/2021 6:34:33 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tblCourseLecturers](
+	[TID] [bigint] IDENTITY(1,1) NOT NULL,
+	[CourseID] [bigint] NOT NULL,
+	[LectureID] [int] NOT NULL,
+	[createdby] [int] NOT NULL,
+	[updatedby] [int] NOT NULL,
+	[insertdate] [datetime] NOT NULL,
+	[lastupdate] [datetime] NOT NULL,
+	[stateid] [int] NOT NULL,
+ CONSTRAINT [PK_tblCourseLecturers] PRIMARY KEY CLUSTERED 
+(
+	[TID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[tblCourseSubject]    Script Date: 1/14/2021 6:34:33 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tblCourseSubject](
+	[TID] [bigint] IDENTITY(1,1) NOT NULL,
+	[CourseID] [bigint] NOT NULL,
+	[SubjectID] [bigint] NOT NULL,
+	[createdby] [int] NOT NULL,
+	[updatedby] [int] NOT NULL,
+	[insertdate] [datetime] NOT NULL,
+	[lastupdate] [datetime] NOT NULL,
+	[stateid] [int] NOT NULL,
+ CONSTRAINT [PK_tblCourseSubject] PRIMARY KEY CLUSTERED 
+(
+	[TID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[tblDepartment]    Script Date: 1/14/2021 6:34:33 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[tblDepartment](
+	[tid] [int] IDENTITY(1,1) NOT NULL,
+	[Title] [varchar](50) NOT NULL,
+	[departmentCode] [varchar](50) NULL,
+	[insertdate] [datetime] NOT NULL,
+	[lastupdate] [datetime] NOT NULL,
+	[insertedby] [int] NOT NULL,
+	[updatedby] [int] NOT NULL,
+	[stateid] [int] NOT NULL,
+ CONSTRAINT [PK_tblDepartment] PRIMARY KEY CLUSTERED 
+(
+	[tid] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[tblDepartmentLecture]    Script Date: 1/14/2021 6:34:33 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tblDepartmentLecture](
+	[TID] [bigint] IDENTITY(1,1) NOT NULL,
+	[departmentID] [int] NOT NULL,
+	[lectureID] [int] NOT NULL,
+	[insertdate] [datetime] NOT NULL,
+	[lastupdate] [datetime] NOT NULL,
+	[createdby] [int] NOT NULL,
+	[updatedby] [int] NOT NULL,
+	[stateid] [int] NOT NULL,
+ CONSTRAINT [PK_tblDepartmentLecture] PRIMARY KEY CLUSTERED 
+(
+	[TID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[tblFaculty]    Script Date: 1/14/2021 6:34:33 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[tblFaculty](
+	[tid] [int] IDENTITY(1,1) NOT NULL,
+	[title] [varchar](50) NOT NULL,
+	[stateid] [int] NOT NULL,
+	[createdby] [int] NOT NULL,
+	[updatedby] [int] NOT NULL,
+	[insertdate] [datetime] NOT NULL,
+	[lastupdate] [datetime] NOT NULL,
+	[departmentID] [int] NOT NULL,
+ CONSTRAINT [PK_tblFaculty] PRIMARY KEY CLUSTERED 
+(
+	[tid] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[tblFacultyLecture]    Script Date: 1/14/2021 6:34:33 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tblFacultyLecture](
+	[TID] [bigint] IDENTITY(1,1) NOT NULL,
+	[FacultyID] [int] NOT NULL,
+	[LectureID] [int] NOT NULL,
+	[createdby] [int] NOT NULL,
+	[updatedby] [int] NOT NULL,
+	[insertdate] [datetime] NOT NULL,
+	[lastupdate] [datetime] NOT NULL,
+	[stateid] [int] NOT NULL,
+ CONSTRAINT [PK_tblFacultyLecture] PRIMARY KEY CLUSTERED 
+(
+	[TID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[tblLecturer]    Script Date: 1/14/2021 6:34:33 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[tblLecturer](
+	[TID] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](50) NOT NULL,
+	[Surname] [varchar](50) NOT NULL,
+	[EmployeeNumber] [varchar](50) NOT NULL,
+	[Email] [varchar](50) NOT NULL,
+	[Password] [varchar](50) NOT NULL,
+	[Gender] [int] NOT NULL,
+	[createdby] [int] NOT NULL,
+	[insertdate] [datetime] NOT NULL,
+	[lastupdate] [datetime] NOT NULL,
+	[updatedby] [int] NOT NULL,
+	[stateid] [int] NOT NULL,
+ CONSTRAINT [PK_tblLecturer] PRIMARY KEY CLUSTERED 
+(
+	[TID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[tblLectureSubjects]    Script Date: 1/14/2021 6:34:33 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tblLectureSubjects](
+	[TID] [bigint] IDENTITY(1,1) NOT NULL,
+	[LectureID] [int] NOT NULL,
+	[SubjectID] [bigint] NOT NULL,
+	[createdby] [int] NOT NULL,
+	[updatedby] [int] NOT NULL,
+	[insertdate] [datetime] NOT NULL,
+	[lastupdate] [datetime] NOT NULL,
+	[stateid] [int] NOT NULL,
+ CONSTRAINT [PK_tblLectureSubjects] PRIMARY KEY CLUSTERED 
+(
+	[TID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[tblStates]    Script Date: 1/14/2021 6:34:33 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[tblStates](
+	[TID] [int] IDENTITY(1,1) NOT NULL,
+	[Heading] [varchar](50) NOT NULL,
+	[FriendlyHeading] [varchar](50) NOT NULL,
+	[Acronym] [varchar](3) NOT NULL,
+	[Active] [nchar](1) NULL,
+ CONSTRAINT [PK_tblStatus] PRIMARY KEY CLUSTERED 
+(
+	[TID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[tblStudent]    Script Date: 1/14/2021 6:34:33 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[tblStudent](
+	[TID] [bigint] IDENTITY(1,1) NOT NULL,
+	[studentNo] [varchar](50) NOT NULL,
+	[Name] [varchar](50) NOT NULL,
+	[Surname] [varchar](50) NOT NULL,
+	[cellphone] [varchar](15) NOT NULL,
+	[gender] [int] NOT NULL,
+	[email] [varchar](50) NOT NULL,
+	[stateid] [int] NOT NULL,
+	[insertdate] [datetime] NOT NULL,
+	[lastupdate] [datetime] NOT NULL,
+	[courseid] [bigint] NULL,
+	[password] [varchar](50) NOT NULL,
+	[createdby] [int] NOT NULL,
+	[updatedby] [int] NOT NULL,
+ CONSTRAINT [PK_tblStudent] PRIMARY KEY CLUSTERED 
+(
+	[TID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[tblStudentCourse]    Script Date: 1/14/2021 6:34:33 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tblStudentCourse](
+	[TID] [bigint] IDENTITY(1,1) NOT NULL,
+	[studentID] [bigint] NOT NULL,
+	[courseID] [bigint] NOT NULL,
+ CONSTRAINT [PK_tblStudentCourse] PRIMARY KEY CLUSTERED 
+(
+	[TID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[tblStudentMarks]    Script Date: 1/14/2021 6:34:33 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tblStudentMarks](
+	[TID] [bigint] IDENTITY(1,1) NOT NULL,
+	[subjectTestID] [bigint] NOT NULL,
+	[StudentID] [bigint] NOT NULL,
+	[Mark] [int] NOT NULL,
+ CONSTRAINT [PK_tblStudentMarks] PRIMARY KEY CLUSTERED 
+(
+	[TID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[tblSubject]    Script Date: 1/14/2021 6:34:33 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[tblSubject](
+	[tid] [bigint] IDENTITY(1,1) NOT NULL,
+	[title] [varchar](50) NOT NULL,
+	[subjectCode] [varchar](50) NOT NULL,
+	[stateid] [int] NOT NULL,
+	[insertdate] [datetime] NOT NULL,
+	[lastupdate] [datetime] NOT NULL,
+	[createdby] [int] NOT NULL,
+	[updatedby] [int] NOT NULL,
+	[courseid] [bigint] NULL,
+ CONSTRAINT [PK_tblSubject] PRIMARY KEY CLUSTERED 
+(
+	[tid] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+/****** Object:  Table [dbo].[tblSubjectTest]    Script Date: 1/14/2021 6:34:33 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tblSubjectTest](
+	[TID] [bigint] IDENTITY(1,1) NOT NULL,
+	[subjectid] [bigint] NOT NULL,
+	[testid] [bigint] NOT NULL,
+	[insertdate] [datetime] NOT NULL,
+	[lastupdate] [datetime] NOT NULL,
+	[stateid] [int] NOT NULL,
+ CONSTRAINT [PK_tblSubjectTest] PRIMARY KEY CLUSTERED 
+(
+	[TID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+/****** Object:  Table [dbo].[tblTest]    Script Date: 1/14/2021 6:34:33 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_PADDING ON
+GO
+CREATE TABLE [dbo].[tblTest](
+	[TID] [bigint] IDENTITY(1,1) NOT NULL,
+	[title] [varchar](50) NOT NULL,
+	[scheduleDate] [datetime] NOT NULL,
+	[insertdate] [datetime] NOT NULL,
+	[lastupdate] [datetime] NOT NULL,
+	[createdby] [int] NOT NULL,
+	[stateid] [int] NOT NULL,
+ CONSTRAINT [PK_tblTest] PRIMARY KEY CLUSTERED 
+(
+	[TID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+SET ANSI_PADDING OFF
+GO
+SET IDENTITY_INSERT [dbo].[tblAdministrators] ON 
+
+GO
+INSERT [dbo].[tblAdministrators] ([TID], [Name], [Surname], [Username], [Email], [Password]) VALUES (1, N'Mosa', N'Mosa', N'Mosa', N'mosa@cut.ac.za', N'Mosa@123')
+GO
+INSERT [dbo].[tblAdministrators] ([TID], [Name], [Surname], [Username], [Email], [Password]) VALUES (2, N'Tshepang', N'Tshepang', N'Tshepang', N'tshepang@cut.ac.za', N'Tshepi@123')
+GO
+INSERT [dbo].[tblAdministrators] ([TID], [Name], [Surname], [Username], [Email], [Password]) VALUES (4, N'Admin', N'Admin', N'Administrator', N'admin@cut.ac.za', N'admin@123')
+GO
+SET IDENTITY_INSERT [dbo].[tblAdministrators] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tblCourse] ON 
+
+GO
+INSERT [dbo].[tblCourse] ([tid], [title], [courseCode], [insertdate], [lastupdate], [createdby], [updatedby], [stateid], [facultyID], [duration]) VALUES (3, N'Information Technology', N'IT2021', CAST(N'2021-01-05 23:14:06.447' AS DateTime), CAST(N'2021-01-05 23:14:06.447' AS DateTime), 1, 1, 1, 1, 3)
+GO
+INSERT [dbo].[tblCourse] ([tid], [title], [courseCode], [insertdate], [lastupdate], [createdby], [updatedby], [stateid], [facultyID], [duration]) VALUES (4, N'Electrical Engineer', N'ELE2021', CAST(N'2021-01-05 23:15:21.667' AS DateTime), CAST(N'2021-01-07 09:24:11.313' AS DateTime), 1, 1, 1, 1, 3)
+GO
+INSERT [dbo].[tblCourse] ([tid], [title], [courseCode], [insertdate], [lastupdate], [createdby], [updatedby], [stateid], [facultyID], [duration]) VALUES (5, N'Civil Engineering', N'CIV2021', CAST(N'2021-01-05 23:16:17.437' AS DateTime), CAST(N'2021-01-06 19:30:15.503' AS DateTime), 1, 1, 1, 1, 3)
+GO
+INSERT [dbo].[tblCourse] ([tid], [title], [courseCode], [insertdate], [lastupdate], [createdby], [updatedby], [stateid], [facultyID], [duration]) VALUES (6, N'Accounting', N'ACC2021CRSE', CAST(N'2021-01-06 19:39:12.203' AS DateTime), CAST(N'2021-01-06 19:40:51.283' AS DateTime), 1, 1, 1, 2, 4)
+GO
+INSERT [dbo].[tblCourse] ([tid], [title], [courseCode], [insertdate], [lastupdate], [createdby], [updatedby], [stateid], [facultyID], [duration]) VALUES (8, N'Graphic Design', N'GD2021CRS', CAST(N'2021-01-10 19:09:18.767' AS DateTime), CAST(N'2021-01-10 19:09:38.830' AS DateTime), 1, 1, 1, 1002, 3)
+GO
+SET IDENTITY_INSERT [dbo].[tblCourse] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tblCourseSubject] ON 
+
+GO
+INSERT [dbo].[tblCourseSubject] ([TID], [CourseID], [SubjectID], [createdby], [updatedby], [insertdate], [lastupdate], [stateid]) VALUES (3, 4, 2, 1, 1, CAST(N'2021-01-09 07:46:49.887' AS DateTime), CAST(N'2021-01-09 07:46:49.887' AS DateTime), 1)
+GO
+INSERT [dbo].[tblCourseSubject] ([TID], [CourseID], [SubjectID], [createdby], [updatedby], [insertdate], [lastupdate], [stateid]) VALUES (4, 3, 2, 1, 1, CAST(N'2021-01-09 07:46:49.920' AS DateTime), CAST(N'2021-01-09 07:46:49.920' AS DateTime), 1)
+GO
+INSERT [dbo].[tblCourseSubject] ([TID], [CourseID], [SubjectID], [createdby], [updatedby], [insertdate], [lastupdate], [stateid]) VALUES (5, 6, 2, 1, 1, CAST(N'2021-01-09 07:46:49.930' AS DateTime), CAST(N'2021-01-09 07:46:49.930' AS DateTime), 1)
+GO
+INSERT [dbo].[tblCourseSubject] ([TID], [CourseID], [SubjectID], [createdby], [updatedby], [insertdate], [lastupdate], [stateid]) VALUES (6, 4, 3, 1, 1, CAST(N'2021-01-10 08:03:08.087' AS DateTime), CAST(N'2021-01-10 08:03:08.087' AS DateTime), 1)
+GO
+INSERT [dbo].[tblCourseSubject] ([TID], [CourseID], [SubjectID], [createdby], [updatedby], [insertdate], [lastupdate], [stateid]) VALUES (7, 3, 3, 1, 1, CAST(N'2021-01-10 08:03:08.113' AS DateTime), CAST(N'2021-01-10 08:03:08.113' AS DateTime), 1)
+GO
+INSERT [dbo].[tblCourseSubject] ([TID], [CourseID], [SubjectID], [createdby], [updatedby], [insertdate], [lastupdate], [stateid]) VALUES (8, 6, 3, 1, 1, CAST(N'2021-01-10 08:03:08.127' AS DateTime), CAST(N'2021-01-10 08:03:08.127' AS DateTime), 1)
+GO
+INSERT [dbo].[tblCourseSubject] ([TID], [CourseID], [SubjectID], [createdby], [updatedby], [insertdate], [lastupdate], [stateid]) VALUES (19, 3, 1, 1, 1, CAST(N'2021-01-10 16:47:58.837' AS DateTime), CAST(N'2021-01-10 16:47:58.837' AS DateTime), 1)
+GO
+INSERT [dbo].[tblCourseSubject] ([TID], [CourseID], [SubjectID], [createdby], [updatedby], [insertdate], [lastupdate], [stateid]) VALUES (22, 3, 5, 1, 1, CAST(N'2021-01-10 19:13:40.400' AS DateTime), CAST(N'2021-01-10 19:13:40.400' AS DateTime), 1)
+GO
+INSERT [dbo].[tblCourseSubject] ([TID], [CourseID], [SubjectID], [createdby], [updatedby], [insertdate], [lastupdate], [stateid]) VALUES (23, 5, 4, 1, 1, CAST(N'2021-01-12 21:51:37.410' AS DateTime), CAST(N'2021-01-12 21:51:37.410' AS DateTime), 1)
+GO
+INSERT [dbo].[tblCourseSubject] ([TID], [CourseID], [SubjectID], [createdby], [updatedby], [insertdate], [lastupdate], [stateid]) VALUES (24, 3, 4, 1, 1, CAST(N'2021-01-12 21:51:38.167' AS DateTime), CAST(N'2021-01-12 21:51:38.167' AS DateTime), 1)
+GO
+INSERT [dbo].[tblCourseSubject] ([TID], [CourseID], [SubjectID], [createdby], [updatedby], [insertdate], [lastupdate], [stateid]) VALUES (25, 6, 4, 1, 1, CAST(N'2021-01-12 21:51:38.413' AS DateTime), CAST(N'2021-01-12 21:51:38.413' AS DateTime), 1)
+GO
+INSERT [dbo].[tblCourseSubject] ([TID], [CourseID], [SubjectID], [createdby], [updatedby], [insertdate], [lastupdate], [stateid]) VALUES (27, 5, 6, 1, 1, CAST(N'2021-01-13 19:04:09.650' AS DateTime), CAST(N'2021-01-13 19:04:09.650' AS DateTime), 1)
+GO
+INSERT [dbo].[tblCourseSubject] ([TID], [CourseID], [SubjectID], [createdby], [updatedby], [insertdate], [lastupdate], [stateid]) VALUES (28, 3, 6, 1, 1, CAST(N'2021-01-13 19:04:10.283' AS DateTime), CAST(N'2021-01-13 19:04:10.283' AS DateTime), 1)
+GO
+SET IDENTITY_INSERT [dbo].[tblCourseSubject] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tblDepartment] ON 
+
+GO
+INSERT [dbo].[tblDepartment] ([tid], [Title], [departmentCode], [insertdate], [lastupdate], [insertedby], [updatedby], [stateid]) VALUES (1, N'Department of Engineering', N'ENG2101FS', CAST(N'2021-01-02 15:00:04.243' AS DateTime), CAST(N'2021-01-06 19:34:51.707' AS DateTime), 1, 1, 1)
+GO
+INSERT [dbo].[tblDepartment] ([tid], [Title], [departmentCode], [insertdate], [lastupdate], [insertedby], [updatedby], [stateid]) VALUES (2, N'Department of Finance and Business', N'FIN2021', CAST(N'2021-01-06 19:34:17.063' AS DateTime), CAST(N'2021-01-06 19:34:17.063' AS DateTime), 1, 1, 1)
+GO
+INSERT [dbo].[tblDepartment] ([tid], [Title], [departmentCode], [insertdate], [lastupdate], [insertedby], [updatedby], [stateid]) VALUES (3, N'Department of Art and Culture', N'AC2021DEP', CAST(N'2021-01-10 18:55:33.797' AS DateTime), CAST(N'2021-01-10 18:58:19.000' AS DateTime), 1, 1, 1)
+GO
+SET IDENTITY_INSERT [dbo].[tblDepartment] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tblFaculty] ON 
+
+GO
+INSERT [dbo].[tblFaculty] ([tid], [title], [stateid], [createdby], [updatedby], [insertdate], [lastupdate], [departmentID]) VALUES (1, N'Faculty of Engineering', 1, 1, 1, CAST(N'2021-01-04 09:07:48.103' AS DateTime), CAST(N'2021-01-04 12:21:57.293' AS DateTime), 1)
+GO
+INSERT [dbo].[tblFaculty] ([tid], [title], [stateid], [createdby], [updatedby], [insertdate], [lastupdate], [departmentID]) VALUES (2, N'Faculty of Finance ', 1, 1, 1, CAST(N'2021-01-04 12:22:33.120' AS DateTime), CAST(N'2021-01-06 19:37:37.347' AS DateTime), 2)
+GO
+INSERT [dbo].[tblFaculty] ([tid], [title], [stateid], [createdby], [updatedby], [insertdate], [lastupdate], [departmentID]) VALUES (1002, N'Faculty of Crafts and blah blah', 1, 1, 1, CAST(N'2021-01-10 19:00:15.027' AS DateTime), CAST(N'2021-01-10 19:01:38.607' AS DateTime), 3)
+GO
+SET IDENTITY_INSERT [dbo].[tblFaculty] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tblLecturer] ON 
+
+GO
+INSERT [dbo].[tblLecturer] ([TID], [Name], [Surname], [EmployeeNumber], [Email], [Password], [Gender], [createdby], [insertdate], [lastupdate], [updatedby], [stateid]) VALUES (1, N'Sechaba', N'Duiker', N'123456', N'sechaba@cut.ac.za', N'12345', 1, 1, CAST(N'2021-01-10 16:47:14.453' AS DateTime), CAST(N'2021-01-11 02:41:44.490' AS DateTime), 1, 1)
+GO
+INSERT [dbo].[tblLecturer] ([TID], [Name], [Surname], [EmployeeNumber], [Email], [Password], [Gender], [createdby], [insertdate], [lastupdate], [updatedby], [stateid]) VALUES (2, N'Tshepang', N'Likh', N'12345600', N'tshepang@cut.ac.za', N'12345', 1, 1, CAST(N'2021-01-10 19:18:15.010' AS DateTime), CAST(N'2021-01-12 22:02:59.210' AS DateTime), 1, 1)
+GO
+SET IDENTITY_INSERT [dbo].[tblLecturer] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tblLectureSubjects] ON 
+
+GO
+INSERT [dbo].[tblLectureSubjects] ([TID], [LectureID], [SubjectID], [createdby], [updatedby], [insertdate], [lastupdate], [stateid]) VALUES (7, 1, 1, 1, 1, CAST(N'2021-01-11 02:41:44.503' AS DateTime), CAST(N'2021-01-11 02:41:44.503' AS DateTime), 1)
+GO
+INSERT [dbo].[tblLectureSubjects] ([TID], [LectureID], [SubjectID], [createdby], [updatedby], [insertdate], [lastupdate], [stateid]) VALUES (8, 1, 4, 1, 1, CAST(N'2021-01-11 02:41:44.523' AS DateTime), CAST(N'2021-01-11 02:41:44.523' AS DateTime), 1)
+GO
+INSERT [dbo].[tblLectureSubjects] ([TID], [LectureID], [SubjectID], [createdby], [updatedby], [insertdate], [lastupdate], [stateid]) VALUES (12, 2, 6, 1, 1, CAST(N'2021-01-12 22:02:59.237' AS DateTime), CAST(N'2021-01-12 22:02:59.237' AS DateTime), 1)
+GO
+INSERT [dbo].[tblLectureSubjects] ([TID], [LectureID], [SubjectID], [createdby], [updatedby], [insertdate], [lastupdate], [stateid]) VALUES (13, 2, 1, 1, 1, CAST(N'2021-01-12 22:02:59.263' AS DateTime), CAST(N'2021-01-12 22:02:59.263' AS DateTime), 1)
+GO
+INSERT [dbo].[tblLectureSubjects] ([TID], [LectureID], [SubjectID], [createdby], [updatedby], [insertdate], [lastupdate], [stateid]) VALUES (14, 2, 4, 1, 1, CAST(N'2021-01-12 22:02:59.277' AS DateTime), CAST(N'2021-01-12 22:02:59.277' AS DateTime), 1)
+GO
+INSERT [dbo].[tblLectureSubjects] ([TID], [LectureID], [SubjectID], [createdby], [updatedby], [insertdate], [lastupdate], [stateid]) VALUES (15, 2, 5, 1, 1, CAST(N'2021-01-12 22:02:59.290' AS DateTime), CAST(N'2021-01-12 22:02:59.290' AS DateTime), 1)
+GO
+SET IDENTITY_INSERT [dbo].[tblLectureSubjects] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tblStates] ON 
+
+GO
+INSERT [dbo].[tblStates] ([TID], [Heading], [FriendlyHeading], [Acronym], [Active]) VALUES (1, N'Active', N'Published', N'AC', N'Y')
+GO
+INSERT [dbo].[tblStates] ([TID], [Heading], [FriendlyHeading], [Acronym], [Active]) VALUES (2, N'Not Active', N'UnPublished', N'NA', N'Y')
+GO
+INSERT [dbo].[tblStates] ([TID], [Heading], [FriendlyHeading], [Acronym], [Active]) VALUES (3, N'Draft', N'Drafts', N'DR', N'Y')
+GO
+INSERT [dbo].[tblStates] ([TID], [Heading], [FriendlyHeading], [Acronym], [Active]) VALUES (4, N'Deleted', N'Deleted', N'DE', N'Y')
+GO
+INSERT [dbo].[tblStates] ([TID], [Heading], [FriendlyHeading], [Acronym], [Active]) VALUES (5, N'Read', N'Read', N'RD', N'Y')
+GO
+INSERT [dbo].[tblStates] ([TID], [Heading], [FriendlyHeading], [Acronym], [Active]) VALUES (6, N'Un-Read', N'Un-Read', N'URD', N'Y')
+GO
+INSERT [dbo].[tblStates] ([TID], [Heading], [FriendlyHeading], [Acronym], [Active]) VALUES (7, N'Trash', N'Trash', N'T', N'Y')
+GO
+INSERT [dbo].[tblStates] ([TID], [Heading], [FriendlyHeading], [Acronym], [Active]) VALUES (8, N'Pending Approval', N'Pending Approval', N'PA', N'Y')
+GO
+SET IDENTITY_INSERT [dbo].[tblStates] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tblStudent] ON 
+
+GO
+INSERT [dbo].[tblStudent] ([TID], [studentNo], [Name], [Surname], [cellphone], [gender], [email], [stateid], [insertdate], [lastupdate], [courseid], [password], [createdby], [updatedby]) VALUES (1, N'210012345', N'Tshepo', N'Chakane', N'0821234567', 1, N'tshepo@cut.ac.za', 1, CAST(N'2021-01-12 11:57:42.040' AS DateTime), CAST(N'2021-01-12 13:03:20.730' AS DateTime), NULL, N'123456', 1, 1)
+GO
+INSERT [dbo].[tblStudent] ([TID], [studentNo], [Name], [Surname], [cellphone], [gender], [email], [stateid], [insertdate], [lastupdate], [courseid], [password], [createdby], [updatedby]) VALUES (2, N'2100123434', N'Sechaba', N'Duiker', N'08212345670', 1, N'sechaba@cut.ac.za', 1, CAST(N'2021-01-12 21:49:29.697' AS DateTime), CAST(N'2021-01-12 21:52:15.880' AS DateTime), NULL, N'12345', 1, 1)
+GO
+SET IDENTITY_INSERT [dbo].[tblStudent] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tblStudentCourse] ON 
+
+GO
+INSERT [dbo].[tblStudentCourse] ([TID], [studentID], [courseID]) VALUES (5, 1, 3)
+GO
+INSERT [dbo].[tblStudentCourse] ([TID], [studentID], [courseID]) VALUES (8, 2, 5)
+GO
+INSERT [dbo].[tblStudentCourse] ([TID], [studentID], [courseID]) VALUES (9, 2, 3)
+GO
+SET IDENTITY_INSERT [dbo].[tblStudentCourse] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tblStudentMarks] ON 
+
+GO
+INSERT [dbo].[tblStudentMarks] ([TID], [subjectTestID], [StudentID], [Mark]) VALUES (1, 1, 2, 70)
+GO
+INSERT [dbo].[tblStudentMarks] ([TID], [subjectTestID], [StudentID], [Mark]) VALUES (2, 1, 1, 89)
+GO
+SET IDENTITY_INSERT [dbo].[tblStudentMarks] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tblSubject] ON 
+
+GO
+INSERT [dbo].[tblSubject] ([tid], [title], [subjectCode], [stateid], [insertdate], [lastupdate], [createdby], [updatedby], [courseid]) VALUES (1, N'Internet Programming', N'INP2021', 1, CAST(N'2021-01-08 10:05:51.567' AS DateTime), CAST(N'2021-01-10 16:47:58.837' AS DateTime), 1, 1, NULL)
+GO
+INSERT [dbo].[tblSubject] ([tid], [title], [subjectCode], [stateid], [insertdate], [lastupdate], [createdby], [updatedby], [courseid]) VALUES (2, N'IT Mathematics', N'ITM2021', 4, CAST(N'2021-01-09 07:46:45.890' AS DateTime), CAST(N'2021-01-09 07:46:45.890' AS DateTime), 1, 1, NULL)
+GO
+INSERT [dbo].[tblSubject] ([tid], [title], [subjectCode], [stateid], [insertdate], [lastupdate], [createdby], [updatedby], [courseid]) VALUES (3, N'Internet Programming', N'INP2021', 4, CAST(N'2021-01-10 08:03:07.840' AS DateTime), CAST(N'2021-01-10 08:03:07.840' AS DateTime), 1, 1, NULL)
+GO
+INSERT [dbo].[tblSubject] ([tid], [title], [subjectCode], [stateid], [insertdate], [lastupdate], [createdby], [updatedby], [courseid]) VALUES (4, N'IT Mathematics', N'ITM2021', 1, CAST(N'2021-01-10 08:14:04.627' AS DateTime), CAST(N'2021-01-12 21:51:37.410' AS DateTime), 1, 1, NULL)
+GO
+INSERT [dbo].[tblSubject] ([tid], [title], [subjectCode], [stateid], [insertdate], [lastupdate], [createdby], [updatedby], [courseid]) VALUES (5, N'Software Engineering', N'OPG2021SBJ', 1, CAST(N'2021-01-10 19:13:12.553' AS DateTime), CAST(N'2021-01-10 19:13:40.400' AS DateTime), 1, 1, NULL)
+GO
+INSERT [dbo].[tblSubject] ([tid], [title], [subjectCode], [stateid], [insertdate], [lastupdate], [createdby], [updatedby], [courseid]) VALUES (6, N'English Proficiency', N'ENG2021SBJT', 1, CAST(N'2021-01-12 22:02:22.817' AS DateTime), CAST(N'2021-01-13 19:04:09.650' AS DateTime), 1, 1, NULL)
+GO
+SET IDENTITY_INSERT [dbo].[tblSubject] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tblSubjectTest] ON 
+
+GO
+INSERT [dbo].[tblSubjectTest] ([TID], [subjectid], [testid], [insertdate], [lastupdate], [stateid]) VALUES (1, 6, 1, CAST(N'2021-01-13 12:44:13.967' AS DateTime), CAST(N'2021-01-13 12:44:14.477' AS DateTime), 1)
+GO
+INSERT [dbo].[tblSubjectTest] ([TID], [subjectid], [testid], [insertdate], [lastupdate], [stateid]) VALUES (2, 1, 2, CAST(N'2021-01-13 12:51:57.857' AS DateTime), CAST(N'2021-01-13 12:51:57.857' AS DateTime), 1)
+GO
+INSERT [dbo].[tblSubjectTest] ([TID], [subjectid], [testid], [insertdate], [lastupdate], [stateid]) VALUES (3, 5, 3, CAST(N'2021-01-13 23:39:38.747' AS DateTime), CAST(N'2021-01-13 23:39:38.747' AS DateTime), 1)
+GO
+SET IDENTITY_INSERT [dbo].[tblSubjectTest] OFF
+GO
+SET IDENTITY_INSERT [dbo].[tblTest] ON 
+
+GO
+INSERT [dbo].[tblTest] ([TID], [title], [scheduleDate], [insertdate], [lastupdate], [createdby], [stateid]) VALUES (1, N'Test 1', CAST(N'2021-03-02 00:00:00.000' AS DateTime), CAST(N'2021-01-13 12:44:05.700' AS DateTime), CAST(N'2021-01-13 23:32:15.767' AS DateTime), 2, 1)
+GO
+INSERT [dbo].[tblTest] ([TID], [title], [scheduleDate], [insertdate], [lastupdate], [createdby], [stateid]) VALUES (2, N'Test 2', CAST(N'2021-11-01 00:00:00.000' AS DateTime), CAST(N'2021-01-13 12:51:57.797' AS DateTime), CAST(N'2021-01-13 12:51:57.797' AS DateTime), 2, 1)
+GO
+INSERT [dbo].[tblTest] ([TID], [title], [scheduleDate], [insertdate], [lastupdate], [createdby], [stateid]) VALUES (3, N'Test 1', CAST(N'2021-12-01 00:00:00.000' AS DateTime), CAST(N'2021-01-13 23:39:38.603' AS DateTime), CAST(N'2021-01-13 23:39:38.603' AS DateTime), 2, 1)
+GO
+SET IDENTITY_INSERT [dbo].[tblTest] OFF
+GO
+ALTER TABLE [dbo].[StudentSubject]  WITH CHECK ADD  CONSTRAINT [FK_StudentSubject_tblStudent] FOREIGN KEY([StudentID])
+REFERENCES [dbo].[tblStudent] ([TID])
+GO
+ALTER TABLE [dbo].[StudentSubject] CHECK CONSTRAINT [FK_StudentSubject_tblStudent]
+GO
+ALTER TABLE [dbo].[StudentSubject]  WITH CHECK ADD  CONSTRAINT [FK_StudentSubject_tblSubject] FOREIGN KEY([SubjectID])
+REFERENCES [dbo].[tblSubject] ([tid])
+GO
+ALTER TABLE [dbo].[StudentSubject] CHECK CONSTRAINT [FK_StudentSubject_tblSubject]
+GO
+ALTER TABLE [dbo].[tblCourse]  WITH CHECK ADD  CONSTRAINT [FK_tblCourse_tblAdministrators] FOREIGN KEY([createdby])
+REFERENCES [dbo].[tblAdministrators] ([TID])
+GO
+ALTER TABLE [dbo].[tblCourse] CHECK CONSTRAINT [FK_tblCourse_tblAdministrators]
+GO
+ALTER TABLE [dbo].[tblCourse]  WITH CHECK ADD  CONSTRAINT [FK_tblCourse_tblAdministrators1] FOREIGN KEY([updatedby])
+REFERENCES [dbo].[tblAdministrators] ([TID])
+GO
+ALTER TABLE [dbo].[tblCourse] CHECK CONSTRAINT [FK_tblCourse_tblAdministrators1]
+GO
+ALTER TABLE [dbo].[tblCourse]  WITH CHECK ADD  CONSTRAINT [FK_tblCourse_tblFaculty] FOREIGN KEY([facultyID])
+REFERENCES [dbo].[tblFaculty] ([tid])
+GO
+ALTER TABLE [dbo].[tblCourse] CHECK CONSTRAINT [FK_tblCourse_tblFaculty]
+GO
+ALTER TABLE [dbo].[tblCourse]  WITH CHECK ADD  CONSTRAINT [FK_tblCourse_tblStates] FOREIGN KEY([stateid])
+REFERENCES [dbo].[tblStates] ([TID])
+GO
+ALTER TABLE [dbo].[tblCourse] CHECK CONSTRAINT [FK_tblCourse_tblStates]
+GO
+ALTER TABLE [dbo].[tblCourseLecturers]  WITH CHECK ADD  CONSTRAINT [FK_tblCourseLecturers_tblAdministrators] FOREIGN KEY([createdby])
+REFERENCES [dbo].[tblAdministrators] ([TID])
+GO
+ALTER TABLE [dbo].[tblCourseLecturers] CHECK CONSTRAINT [FK_tblCourseLecturers_tblAdministrators]
+GO
+ALTER TABLE [dbo].[tblCourseLecturers]  WITH CHECK ADD  CONSTRAINT [FK_tblCourseLecturers_tblAdministrators1] FOREIGN KEY([updatedby])
+REFERENCES [dbo].[tblAdministrators] ([TID])
+GO
+ALTER TABLE [dbo].[tblCourseLecturers] CHECK CONSTRAINT [FK_tblCourseLecturers_tblAdministrators1]
+GO
+ALTER TABLE [dbo].[tblCourseLecturers]  WITH CHECK ADD  CONSTRAINT [FK_tblCourseLecturers_tblCourse] FOREIGN KEY([CourseID])
+REFERENCES [dbo].[tblCourse] ([tid])
+GO
+ALTER TABLE [dbo].[tblCourseLecturers] CHECK CONSTRAINT [FK_tblCourseLecturers_tblCourse]
+GO
+ALTER TABLE [dbo].[tblCourseLecturers]  WITH CHECK ADD  CONSTRAINT [FK_tblCourseLecturers_tblLecturer] FOREIGN KEY([LectureID])
+REFERENCES [dbo].[tblLecturer] ([TID])
+GO
+ALTER TABLE [dbo].[tblCourseLecturers] CHECK CONSTRAINT [FK_tblCourseLecturers_tblLecturer]
+GO
+ALTER TABLE [dbo].[tblCourseLecturers]  WITH CHECK ADD  CONSTRAINT [FK_tblCourseLecturers_tblStates] FOREIGN KEY([stateid])
+REFERENCES [dbo].[tblStates] ([TID])
+GO
+ALTER TABLE [dbo].[tblCourseLecturers] CHECK CONSTRAINT [FK_tblCourseLecturers_tblStates]
+GO
+ALTER TABLE [dbo].[tblCourseSubject]  WITH CHECK ADD  CONSTRAINT [FK_tblCourseSubject_tblAdministrators] FOREIGN KEY([createdby])
+REFERENCES [dbo].[tblAdministrators] ([TID])
+GO
+ALTER TABLE [dbo].[tblCourseSubject] CHECK CONSTRAINT [FK_tblCourseSubject_tblAdministrators]
+GO
+ALTER TABLE [dbo].[tblCourseSubject]  WITH CHECK ADD  CONSTRAINT [FK_tblCourseSubject_tblAdministrators1] FOREIGN KEY([updatedby])
+REFERENCES [dbo].[tblAdministrators] ([TID])
+GO
+ALTER TABLE [dbo].[tblCourseSubject] CHECK CONSTRAINT [FK_tblCourseSubject_tblAdministrators1]
+GO
+ALTER TABLE [dbo].[tblCourseSubject]  WITH CHECK ADD  CONSTRAINT [FK_tblCourseSubject_tblCourse] FOREIGN KEY([CourseID])
+REFERENCES [dbo].[tblCourse] ([tid])
+GO
+ALTER TABLE [dbo].[tblCourseSubject] CHECK CONSTRAINT [FK_tblCourseSubject_tblCourse]
+GO
+ALTER TABLE [dbo].[tblCourseSubject]  WITH CHECK ADD  CONSTRAINT [FK_tblCourseSubject_tblStates] FOREIGN KEY([stateid])
+REFERENCES [dbo].[tblStates] ([TID])
+GO
+ALTER TABLE [dbo].[tblCourseSubject] CHECK CONSTRAINT [FK_tblCourseSubject_tblStates]
+GO
+ALTER TABLE [dbo].[tblCourseSubject]  WITH CHECK ADD  CONSTRAINT [FK_tblCourseSubject_tblSubject] FOREIGN KEY([SubjectID])
+REFERENCES [dbo].[tblSubject] ([tid])
+GO
+ALTER TABLE [dbo].[tblCourseSubject] CHECK CONSTRAINT [FK_tblCourseSubject_tblSubject]
+GO
+ALTER TABLE [dbo].[tblDepartment]  WITH CHECK ADD  CONSTRAINT [FK_tblDepartment_tblAdministrators] FOREIGN KEY([insertedby])
+REFERENCES [dbo].[tblAdministrators] ([TID])
+GO
+ALTER TABLE [dbo].[tblDepartment] CHECK CONSTRAINT [FK_tblDepartment_tblAdministrators]
+GO
+ALTER TABLE [dbo].[tblDepartment]  WITH CHECK ADD  CONSTRAINT [FK_tblDepartment_tblAdministrators1] FOREIGN KEY([updatedby])
+REFERENCES [dbo].[tblAdministrators] ([TID])
+GO
+ALTER TABLE [dbo].[tblDepartment] CHECK CONSTRAINT [FK_tblDepartment_tblAdministrators1]
+GO
+ALTER TABLE [dbo].[tblDepartment]  WITH CHECK ADD  CONSTRAINT [FK_tblDepartment_tblStates] FOREIGN KEY([stateid])
+REFERENCES [dbo].[tblStates] ([TID])
+GO
+ALTER TABLE [dbo].[tblDepartment] CHECK CONSTRAINT [FK_tblDepartment_tblStates]
+GO
+ALTER TABLE [dbo].[tblDepartmentLecture]  WITH CHECK ADD  CONSTRAINT [FK_tblDepartmentLecture_tblAdministrators] FOREIGN KEY([createdby])
+REFERENCES [dbo].[tblAdministrators] ([TID])
+GO
+ALTER TABLE [dbo].[tblDepartmentLecture] CHECK CONSTRAINT [FK_tblDepartmentLecture_tblAdministrators]
+GO
+ALTER TABLE [dbo].[tblDepartmentLecture]  WITH CHECK ADD  CONSTRAINT [FK_tblDepartmentLecture_tblAdministrators1] FOREIGN KEY([updatedby])
+REFERENCES [dbo].[tblAdministrators] ([TID])
+GO
+ALTER TABLE [dbo].[tblDepartmentLecture] CHECK CONSTRAINT [FK_tblDepartmentLecture_tblAdministrators1]
+GO
+ALTER TABLE [dbo].[tblDepartmentLecture]  WITH CHECK ADD  CONSTRAINT [FK_tblDepartmentLecture_tblDepartment] FOREIGN KEY([departmentID])
+REFERENCES [dbo].[tblDepartment] ([tid])
+GO
+ALTER TABLE [dbo].[tblDepartmentLecture] CHECK CONSTRAINT [FK_tblDepartmentLecture_tblDepartment]
+GO
+ALTER TABLE [dbo].[tblDepartmentLecture]  WITH CHECK ADD  CONSTRAINT [FK_tblDepartmentLecture_tblLecturer] FOREIGN KEY([lectureID])
+REFERENCES [dbo].[tblLecturer] ([TID])
+GO
+ALTER TABLE [dbo].[tblDepartmentLecture] CHECK CONSTRAINT [FK_tblDepartmentLecture_tblLecturer]
+GO
+ALTER TABLE [dbo].[tblDepartmentLecture]  WITH CHECK ADD  CONSTRAINT [FK_tblDepartmentLecture_tblStates] FOREIGN KEY([stateid])
+REFERENCES [dbo].[tblStates] ([TID])
+GO
+ALTER TABLE [dbo].[tblDepartmentLecture] CHECK CONSTRAINT [FK_tblDepartmentLecture_tblStates]
+GO
+ALTER TABLE [dbo].[tblFaculty]  WITH CHECK ADD  CONSTRAINT [FK_tblFaculty_tblAdministrators] FOREIGN KEY([createdby])
+REFERENCES [dbo].[tblAdministrators] ([TID])
+GO
+ALTER TABLE [dbo].[tblFaculty] CHECK CONSTRAINT [FK_tblFaculty_tblAdministrators]
+GO
+ALTER TABLE [dbo].[tblFaculty]  WITH CHECK ADD  CONSTRAINT [FK_tblFaculty_tblAdministrators1] FOREIGN KEY([updatedby])
+REFERENCES [dbo].[tblAdministrators] ([TID])
+GO
+ALTER TABLE [dbo].[tblFaculty] CHECK CONSTRAINT [FK_tblFaculty_tblAdministrators1]
+GO
+ALTER TABLE [dbo].[tblFaculty]  WITH CHECK ADD  CONSTRAINT [FK_tblFaculty_tblDepartment] FOREIGN KEY([departmentID])
+REFERENCES [dbo].[tblDepartment] ([tid])
+GO
+ALTER TABLE [dbo].[tblFaculty] CHECK CONSTRAINT [FK_tblFaculty_tblDepartment]
+GO
+ALTER TABLE [dbo].[tblFaculty]  WITH CHECK ADD  CONSTRAINT [FK_tblFaculty_tblStates] FOREIGN KEY([stateid])
+REFERENCES [dbo].[tblStates] ([TID])
+GO
+ALTER TABLE [dbo].[tblFaculty] CHECK CONSTRAINT [FK_tblFaculty_tblStates]
+GO
+ALTER TABLE [dbo].[tblFacultyLecture]  WITH CHECK ADD  CONSTRAINT [FK_tblFacultyLecture_tblAdministrators] FOREIGN KEY([createdby])
+REFERENCES [dbo].[tblAdministrators] ([TID])
+GO
+ALTER TABLE [dbo].[tblFacultyLecture] CHECK CONSTRAINT [FK_tblFacultyLecture_tblAdministrators]
+GO
+ALTER TABLE [dbo].[tblFacultyLecture]  WITH CHECK ADD  CONSTRAINT [FK_tblFacultyLecture_tblAdministrators1] FOREIGN KEY([updatedby])
+REFERENCES [dbo].[tblAdministrators] ([TID])
+GO
+ALTER TABLE [dbo].[tblFacultyLecture] CHECK CONSTRAINT [FK_tblFacultyLecture_tblAdministrators1]
+GO
+ALTER TABLE [dbo].[tblFacultyLecture]  WITH CHECK ADD  CONSTRAINT [FK_tblFacultyLecture_tblFaculty] FOREIGN KEY([FacultyID])
+REFERENCES [dbo].[tblFaculty] ([tid])
+GO
+ALTER TABLE [dbo].[tblFacultyLecture] CHECK CONSTRAINT [FK_tblFacultyLecture_tblFaculty]
+GO
+ALTER TABLE [dbo].[tblFacultyLecture]  WITH CHECK ADD  CONSTRAINT [FK_tblFacultyLecture_tblLecturer] FOREIGN KEY([LectureID])
+REFERENCES [dbo].[tblLecturer] ([TID])
+GO
+ALTER TABLE [dbo].[tblFacultyLecture] CHECK CONSTRAINT [FK_tblFacultyLecture_tblLecturer]
+GO
+ALTER TABLE [dbo].[tblFacultyLecture]  WITH CHECK ADD  CONSTRAINT [FK_tblFacultyLecture_tblStates] FOREIGN KEY([stateid])
+REFERENCES [dbo].[tblStates] ([TID])
+GO
+ALTER TABLE [dbo].[tblFacultyLecture] CHECK CONSTRAINT [FK_tblFacultyLecture_tblStates]
+GO
+ALTER TABLE [dbo].[tblLecturer]  WITH CHECK ADD  CONSTRAINT [FK_tblLecturer_tblAdministrators] FOREIGN KEY([updatedby])
+REFERENCES [dbo].[tblAdministrators] ([TID])
+GO
+ALTER TABLE [dbo].[tblLecturer] CHECK CONSTRAINT [FK_tblLecturer_tblAdministrators]
+GO
+ALTER TABLE [dbo].[tblLecturer]  WITH CHECK ADD  CONSTRAINT [FK_tblLecturer_tblAdministrators1] FOREIGN KEY([createdby])
+REFERENCES [dbo].[tblAdministrators] ([TID])
+GO
+ALTER TABLE [dbo].[tblLecturer] CHECK CONSTRAINT [FK_tblLecturer_tblAdministrators1]
+GO
+ALTER TABLE [dbo].[tblLecturer]  WITH CHECK ADD  CONSTRAINT [FK_tblLecturer_tblStates] FOREIGN KEY([stateid])
+REFERENCES [dbo].[tblStates] ([TID])
+GO
+ALTER TABLE [dbo].[tblLecturer] CHECK CONSTRAINT [FK_tblLecturer_tblStates]
+GO
+ALTER TABLE [dbo].[tblLectureSubjects]  WITH CHECK ADD  CONSTRAINT [FK_tblLectureSubjects_tblAdministrators] FOREIGN KEY([createdby])
+REFERENCES [dbo].[tblAdministrators] ([TID])
+GO
+ALTER TABLE [dbo].[tblLectureSubjects] CHECK CONSTRAINT [FK_tblLectureSubjects_tblAdministrators]
+GO
+ALTER TABLE [dbo].[tblLectureSubjects]  WITH CHECK ADD  CONSTRAINT [FK_tblLectureSubjects_tblAdministrators1] FOREIGN KEY([updatedby])
+REFERENCES [dbo].[tblAdministrators] ([TID])
+GO
+ALTER TABLE [dbo].[tblLectureSubjects] CHECK CONSTRAINT [FK_tblLectureSubjects_tblAdministrators1]
+GO
+ALTER TABLE [dbo].[tblLectureSubjects]  WITH CHECK ADD  CONSTRAINT [FK_tblLectureSubjects_tblLecturer] FOREIGN KEY([LectureID])
+REFERENCES [dbo].[tblLecturer] ([TID])
+GO
+ALTER TABLE [dbo].[tblLectureSubjects] CHECK CONSTRAINT [FK_tblLectureSubjects_tblLecturer]
+GO
+ALTER TABLE [dbo].[tblLectureSubjects]  WITH CHECK ADD  CONSTRAINT [FK_tblLectureSubjects_tblStates] FOREIGN KEY([stateid])
+REFERENCES [dbo].[tblStates] ([TID])
+GO
+ALTER TABLE [dbo].[tblLectureSubjects] CHECK CONSTRAINT [FK_tblLectureSubjects_tblStates]
+GO
+ALTER TABLE [dbo].[tblLectureSubjects]  WITH CHECK ADD  CONSTRAINT [FK_tblLectureSubjects_tblSubject] FOREIGN KEY([SubjectID])
+REFERENCES [dbo].[tblSubject] ([tid])
+GO
+ALTER TABLE [dbo].[tblLectureSubjects] CHECK CONSTRAINT [FK_tblLectureSubjects_tblSubject]
+GO
+ALTER TABLE [dbo].[tblStudent]  WITH CHECK ADD  CONSTRAINT [FK_tblStudent_tblAdministrators] FOREIGN KEY([updatedby])
+REFERENCES [dbo].[tblAdministrators] ([TID])
+GO
+ALTER TABLE [dbo].[tblStudent] CHECK CONSTRAINT [FK_tblStudent_tblAdministrators]
+GO
+ALTER TABLE [dbo].[tblStudent]  WITH CHECK ADD  CONSTRAINT [FK_tblStudent_tblAdministrators1] FOREIGN KEY([createdby])
+REFERENCES [dbo].[tblAdministrators] ([TID])
+GO
+ALTER TABLE [dbo].[tblStudent] CHECK CONSTRAINT [FK_tblStudent_tblAdministrators1]
+GO
+ALTER TABLE [dbo].[tblStudent]  WITH CHECK ADD  CONSTRAINT [FK_tblStudent_tblStates] FOREIGN KEY([stateid])
+REFERENCES [dbo].[tblStates] ([TID])
+GO
+ALTER TABLE [dbo].[tblStudent] CHECK CONSTRAINT [FK_tblStudent_tblStates]
+GO
+ALTER TABLE [dbo].[tblStudentCourse]  WITH CHECK ADD  CONSTRAINT [FK_tblStudentCourse_tblCourse] FOREIGN KEY([courseID])
+REFERENCES [dbo].[tblCourse] ([tid])
+GO
+ALTER TABLE [dbo].[tblStudentCourse] CHECK CONSTRAINT [FK_tblStudentCourse_tblCourse]
+GO
+ALTER TABLE [dbo].[tblStudentCourse]  WITH CHECK ADD  CONSTRAINT [FK_tblStudentCourse_tblStudent] FOREIGN KEY([studentID])
+REFERENCES [dbo].[tblStudent] ([TID])
+GO
+ALTER TABLE [dbo].[tblStudentCourse] CHECK CONSTRAINT [FK_tblStudentCourse_tblStudent]
+GO
+ALTER TABLE [dbo].[tblStudentMarks]  WITH CHECK ADD  CONSTRAINT [FK_tblStudentMarks_tblStudent] FOREIGN KEY([StudentID])
+REFERENCES [dbo].[tblStudent] ([TID])
+GO
+ALTER TABLE [dbo].[tblStudentMarks] CHECK CONSTRAINT [FK_tblStudentMarks_tblStudent]
+GO
+ALTER TABLE [dbo].[tblStudentMarks]  WITH CHECK ADD  CONSTRAINT [FK_tblStudentMarks_tblSubjectTest] FOREIGN KEY([subjectTestID])
+REFERENCES [dbo].[tblSubjectTest] ([TID])
+GO
+ALTER TABLE [dbo].[tblStudentMarks] CHECK CONSTRAINT [FK_tblStudentMarks_tblSubjectTest]
+GO
+ALTER TABLE [dbo].[tblSubject]  WITH CHECK ADD  CONSTRAINT [FK_tblSubject_tblCourse] FOREIGN KEY([courseid])
+REFERENCES [dbo].[tblCourse] ([tid])
+GO
+ALTER TABLE [dbo].[tblSubject] CHECK CONSTRAINT [FK_tblSubject_tblCourse]
+GO
+ALTER TABLE [dbo].[tblSubject]  WITH CHECK ADD  CONSTRAINT [FK_tblSubject_tblStates] FOREIGN KEY([stateid])
+REFERENCES [dbo].[tblStates] ([TID])
+GO
+ALTER TABLE [dbo].[tblSubject] CHECK CONSTRAINT [FK_tblSubject_tblStates]
+GO
+ALTER TABLE [dbo].[tblSubjectTest]  WITH CHECK ADD  CONSTRAINT [FK_tblSubjectTest_tblStates] FOREIGN KEY([stateid])
+REFERENCES [dbo].[tblStates] ([TID])
+GO
+ALTER TABLE [dbo].[tblSubjectTest] CHECK CONSTRAINT [FK_tblSubjectTest_tblStates]
+GO
+ALTER TABLE [dbo].[tblSubjectTest]  WITH CHECK ADD  CONSTRAINT [FK_tblSubjectTest_tblSubject] FOREIGN KEY([subjectid])
+REFERENCES [dbo].[tblSubject] ([tid])
+GO
+ALTER TABLE [dbo].[tblSubjectTest] CHECK CONSTRAINT [FK_tblSubjectTest_tblSubject]
+GO
+ALTER TABLE [dbo].[tblSubjectTest]  WITH CHECK ADD  CONSTRAINT [FK_tblSubjectTest_tblTest] FOREIGN KEY([testid])
+REFERENCES [dbo].[tblTest] ([TID])
+GO
+ALTER TABLE [dbo].[tblSubjectTest] CHECK CONSTRAINT [FK_tblSubjectTest_tblTest]
+GO
+ALTER TABLE [dbo].[tblTest]  WITH CHECK ADD  CONSTRAINT [FK_tblTest_tblLecturer] FOREIGN KEY([createdby])
+REFERENCES [dbo].[tblLecturer] ([TID])
+GO
+ALTER TABLE [dbo].[tblTest] CHECK CONSTRAINT [FK_tblTest_tblLecturer]
+GO
+ALTER TABLE [dbo].[tblTest]  WITH CHECK ADD  CONSTRAINT [FK_tblTest_tblStates] FOREIGN KEY([stateid])
+REFERENCES [dbo].[tblStates] ([TID])
+GO
+ALTER TABLE [dbo].[tblTest] CHECK CONSTRAINT [FK_tblTest_tblStates]
+GO
